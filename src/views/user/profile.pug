@@ -1,0 +1,5 @@
+extends ../templates/layout
+
+block content
+  h1 My name is #{user.username}
+  a(href=`/users/${user._id}/signout`) 회원탈퇴

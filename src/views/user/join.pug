@@ -1,0 +1,34 @@
+extends ../templates/layout
+
+block content
+  form(method='POST')
+
+    label(for='uid') 아이디*
+    input(name='uid' id='uid' type='text' placeholder='아이디' required)
+    span=uidErrorMsg
+
+    label(for='password') 비밀번호*
+    input(name='password' id='password' type='password' placeholder='비밀번호' required)
+    span=passwordErrorMsg
+
+    label(for='passwordConfirm') 비밀번호 확인*
+    input(name='passwordConfirm' id='passwordConfirm' type='password' placeholder='비밀번호 확인' required)
+    span=passwordConfirmErrorMsg
+
+    label(for='username') 유저명*
+    input(name='username' id='username' type='text' placeholder='유저의 닉네임' required)
+    span=usernameErrorMsg
+
+    label(for='email') 이메일
+    input(name='email' id='email' type='text' placeholder='이메일')
+    span=emailErrorMsg
+
+    label(for='phoneNumber') 휴대전화
+    input(name='phoneNumber' id='phoneNumber' type='number' placeholder='휴대전화')
+    span=phoneNumberErrorMsg
+
+    label(for='location') 주소명
+    input(name='location' id='location' type='text' placeholder='주소명')
+    span=addressErrorMsg
+
+    input(type='submit' value='회원가입')
