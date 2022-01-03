@@ -1,0 +1,25 @@
+extends ../templates/layout
+
+block content
+  form(method='POST')
+    label(for='uid') 아이디*
+    input(name='uid' id='uid' type='text' placeholder='아이디' value=user.uid required)
+    span=uidErrorMsg
+
+    label(for='username') 유저명*
+    input(name='username' id='username' type='text' placeholder='유저의 닉네임' value=user.username required)
+    span=usernameErrorMsg
+
+    label(for='email') 이메일
+    input(name='email' id='email' type='text' placeholder='이메일' value=user.email)
+    span=emailErrorMsg
+
+    label(for='phoneNumber') 휴대전화
+    input(name='phoneNumber' id='phoneNumber' type='number' placeholder='휴대전화' value=user.phoneNumber)
+    span=phoneNumberErrorMsg
+
+    label(for='location') 주소명
+    input(name='location' id='location' type='text' placeholder='주소명' value=user.location)
+    span=addressErrorMsg
+
+    input(type='submit' value='저장')

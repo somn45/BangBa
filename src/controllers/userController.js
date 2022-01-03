@@ -69,6 +69,41 @@ export const profile = (req, res) => {
   res.render('user/profile');
 };
 
+export const getEdit = async (req, res) => {
+  res.render('user/edit');
+};
+
+export const postEdit = async (req, res) => {
+  try {
+    const oldUser = req.session.user;
+    const { uid, username, email, phoneNumber, location } = req.body;
+    const uidExists = await User.exists({ uid });
+    if (uidExists && oldUser.uid !== uid) {
+      return res.status(400).render('user/edit', { uidErrorMsg: '아이디 중복' });
+    }
+    const emailForm = new RegExp(/\w+@\w+.\w+/);
+    const isEmailFormat = emailForm.test(email);
+    if (!isEmailFormat && email !== '') {
+      return res.status(400).render('user/edit', { emailErrorMsg: 'Email format is not correct' });
+    }
+    const newUser = await User.findByIdAndUpdate(
+      oldUser._id,
+      {
+        uid,
+        username,
+        email,
+        phoneNumber,
+        location,
+      },
+      { new: true }
+    );
+    req.session.user = newUser;
+    res.redirect(`/users/${oldUser._id}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const signout = async (req, res) => {
   const user = req.session.user;
   await User.findByIdAndDelete(user._id);

@@ -1,4 +1,11 @@
 extends templates/layout
+include mixins/cafe
 
 block content
-  h1 Home
+  a(href='/cafes/register') 방탈출 카페 등록하기
+  hr
+  ul
+    each cafe in cafes
+      +cafe(cafe)
+    else
+      li 좋아하는 방탈출 테마를 정해주세요!

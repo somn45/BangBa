@@ -1,0 +1,12 @@
+extends ../templates/layout
+
+block content
+  h2=cafe.name
+  p=cafe.description
+  p=cafe.location
+  hr
+  div
+    p
+      a(href=`/cafes/${cafe._id}/edit`) 내용 수정하기
+    p
+      a(href=`/cafes/${cafe._id}/delete`) 삭제하기
