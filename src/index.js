@@ -33,6 +33,8 @@ app.use(
 );
 app.use(morgan('dev'));
 app.use(sessionMiddleware);
+app.use('/assets', express.static('assets'));
+app.use('/uploads', express.static('uploads'));
 app.use('/', globalRouter);
 app.use('/users', userRouter);
 app.use('/cafes', cafeRouter);

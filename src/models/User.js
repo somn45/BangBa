@@ -8,11 +8,15 @@ const userSchema = new Schema({
   email: { type: String },
   phoneNumber: { type: String },
   location: { type: String },
+  avatarUrl: { type: String },
+  watchlist: [{ type: String }],
 });
 
 userSchema.pre('save', async function () {
   try {
-    this.password = await bcrypt.hash(this.password, 5);
+    if (this.isModified('password')) {
+      this.password = await bcrypt.hash(this.password, 5);
+    }
   } catch (err) {
     console.log(err);
   }

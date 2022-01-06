@@ -1,6 +1,10 @@
 extends ../templates/layout
 
 block content
+  if(user.avatarUrl)
+    img(src=`/${user.avatarUrl}`)
+  else
+    img(src="/assets/img/default.jpg")
   h1 My name is #{user.username}
   p
     a(href=`/users/${user._id}/edit`) 수정하기

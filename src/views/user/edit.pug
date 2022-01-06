@@ -1,12 +1,8 @@
 extends ../templates/layout
 
 block content
-  form(method='POST')
-    label(for='uid') 아이디*
-    input(name='uid' id='uid' type='text' placeholder='아이디' value=user.uid required)
-    span=uidErrorMsg
-
-    label(for='username') 유저명*
+  form(method='POST' enctype='multipart/form-data')
+    label(for='username') 유저명
     input(name='username' id='username' type='text' placeholder='유저의 닉네임' value=user.username required)
     span=usernameErrorMsg
 
@@ -21,5 +17,15 @@ block content
     label(for='location') 주소명
     input(name='location' id='location' type='text' placeholder='주소명' value=user.location)
     span=addressErrorMsg
+    hr
+
+    label(for='avatar') 프로필 사진
+    input(name='avatar' id='avatar' type='file' accept='image/*')
+
+    label(for='watchlist') 관심있는 테마'
+    input(name='watchlist' id='watchlist' type='text' placeholder='관심있는 테마(쉼표로 테마들을 나눕니다.)')
+    span ※관심있는 테마를 등록하면 그 테마에 맞는 카페를 빠르게 찾아볼 수 있습니다.
 
     input(type='submit' value='저장')
+  hr
+  a(href=`/users/${user._id}/change-password`) 비밀번호 바꾸기

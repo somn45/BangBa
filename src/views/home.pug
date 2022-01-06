@@ -4,6 +4,7 @@ include mixins/cafe
 block content
   a(href='/cafes/register') 방탈출 카페 등록하기
   hr
+  p 좋아하는 방탈출 테마를 정해주세요!
   ul
     each cafe in cafes
       +cafe(cafe)
