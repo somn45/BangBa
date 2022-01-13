@@ -1,7 +1,7 @@
 extends ../templates/layout
 
 block content
-  form(method='POST')
+  form(method='POST' enctype='multipart/form-data')
     label(for='name') 이름*
     input(name='name' id='name' type='text' placeholder='카페 이름' required)
     span=nameErrorMsg
@@ -25,5 +25,8 @@ block content
     label(for='rating') 점수
     input(name='rating' id='rating' type='number' placeholder='점수(1~10점까지 있으면 높을수록 좋은 평입니다.)')
     span=ratingErrorMsg
+    hr
 
+    label(for='background') 카페 배경
+    input(name='background' id='background' type='file' accept='image/*')
     input(type='submit' value='등록하기')

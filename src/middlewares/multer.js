@@ -1,3 +1,4 @@
 import multer from 'multer';
 
-export const upload = multer({ dest: 'uploads/' });
+export const uploadProfile = multer({ dest: 'uploads/profile' });
+export const uploadCafeBg = multer({ dest: 'uploads/cafeBg' });

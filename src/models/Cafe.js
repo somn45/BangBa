@@ -9,6 +9,7 @@ const cafeSchema = new Schema({
     level: { type: Number, required: true },
     rating: { type: Number },
   },
+  backgroundUrl: { type: String },
 });
 
 const Cafe = model('cafes', cafeSchema);
