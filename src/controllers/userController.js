@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { body } from 'express-validator';
+import fetch from 'node-fetch';
 
 import User from '../models/User';
 
@@ -219,5 +219,192 @@ export const signout = async (req, res) => {
   const user = req.session.user;
   await User.findByIdAndDelete(user._id);
   req.session.destroy();
+  res.redirect('/');
+};
+
+// 카카오 로그인
+export const startKakaoLogin = (req, res) => {
+  const baseUrl = 'https://kauth.kakao.com/oauth/authorize';
+  const urlConfig = {
+    client_id: process.env.KAKAO_CLIENT_ID,
+    redirect_uri: 'http://localhost:4000/users/kakao/oauth',
+    response_type: 'code',
+    state: process.env.KAKAO_STATE,
+  };
+  const option = new URLSearchParams(urlConfig).toString();
+  const finalUrl = `${baseUrl}?${option}`;
+  res.redirect(finalUrl);
+};
+
+export const finishKakaoLogin = async (req, res) => {
+  const { code } = req.query;
+  const baseUrl = 'https://kauth.kakao.com/oauth/token';
+  const urlConfig = {
+    grant_type: 'authorization_code',
+    client_id: process.env.KAKAO_CLIENT_ID,
+    redirect_uri: 'http://localhost:4000/users/kakao/oauth',
+    code,
+  };
+  const option = new URLSearchParams(urlConfig).toString();
+  const finalUrl = `${baseUrl}?${option}`;
+  const tokenRequest = await (
+    await fetch(finalUrl, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+    })
+  ).json();
+  if ('access_token' in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const userRequest = await (
+      await fetch('https://kapi.kakao.com/v2/user/me', {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+    ).json();
+    if ('msg' in userRequest) {
+      return res.redirect('/login');
+    }
+    const {
+      kakao_account: {
+        email,
+        email_needs_agreement,
+        is_email_valid,
+        is_email_verified,
+        profile: { nickname, profile_image_url, is_default_image },
+      },
+    } = userRequest;
+    let user = await User.findOne({ uid: nickname });
+    if (!user) {
+      const isEmailAvailable =
+        !email_needs_agreement && is_email_valid && is_email_verified;
+      user = await User.create({
+        uid: nickname,
+        password: process.env.KAKAO_PASSWORD,
+        isSocialAccount: true,
+        username: nickname,
+        email: isEmailAvailable ? email : '',
+        avatarUrl: is_default_image ? '' : profile_image_url,
+      });
+    }
+
+    req.session.loggedIn = true;
+    req.session.user = user;
+  } else {
+    return res.redirect('/login');
+  }
+  return res.redirect('/');
+};
+
+export const startGoogleLogin = (req, res) => {
+  const baseUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+  const urlConfig = {
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    redirect_uri: 'http://localhost:4000/users/google/oauth',
+    response_type: 'code',
+    scope:
+      'openid https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+    access_type: 'offline',
+    state: process.env.GOOGLE_STATE,
+  };
+  const option = new URLSearchParams(urlConfig).toString();
+  const finalUrl = `${baseUrl}?${option}`;
+  res.redirect(finalUrl);
+};
+
+export const finishGoogleLogin = async (req, res) => {
+  const { code } = req.query;
+  const baseUrl = 'https://www.googleapis.com/oauth2/v4/token';
+  const urlConfig = {
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_CLIENT_SECRET,
+    code,
+    grant_type: 'authorization_code',
+    redirect_uri: 'http://localhost:4000/users/google/oauth',
+  };
+  const option = new URLSearchParams(urlConfig).toString();
+  const finalUrl = `${baseUrl}?${option}`;
+  const tokenRequest = await (
+    await fetch(finalUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+  ).json();
+  if ('access_token' in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const userRequest = await (
+      await fetch('https://www.googleapis.com/drive/v2/files', {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+    ).json();
+    console.log(userRequest);
+  } else {
+    return res.redirect('/login');
+  }
+  return res.redirect('/');
+};
+
+export const startNaverLogin = (req, res) => {
+  const baseUrl = 'https://nid.naver.com/oauth2.0/authorize';
+  const urlConfig = {
+    response_type: 'code',
+    client_id: process.env.NAVER_CLIENT_ID,
+    redirect_uri: 'http://localhost:4000/users/naver/oauth',
+    state: process.env.NAVER_STATE,
+  };
+  const option = new URLSearchParams(urlConfig).toString();
+  const finalUrl = `${baseUrl}?${option}`;
+  res.redirect(finalUrl);
+};
+
+export const finishNaverLogin = async (req, res) => {
+  const { code } = req.query;
+  const baseUrl = 'https://nid.naver.com/oauth2.0/token';
+  const urlConfig = {
+    grant_type: 'authorization_code',
+    client_id: process.env.NAVER_CLIENT_ID,
+    client_secret: process.env.NAVER_CLIENT_SECRET,
+    code,
+    state: process.env.NAVER_STATE,
+  };
+  const option = new URLSearchParams(urlConfig).toString();
+  const finalUrl = `${baseUrl}?${option}`;
+  const tokenRequest = await (
+    await fetch(finalUrl, {
+      method: 'POST',
+    })
+  ).json();
+  if ('access_token' in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const userRequest = await (
+      await fetch('https://openapi.naver.com/v1/nid/me', {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+    ).json();
+    const {
+      response: { id, nickname },
+    } = userRequest;
+    let user = await User.findOne({ uid: id });
+    if (!user) {
+      user = await User.create({
+        uid: id,
+        password: process.env.NAVER_PASSWORD,
+        isSocialAccount: true,
+        username: nickname,
+      });
+    }
+    req.session.loggedIn = true;
+    req.session.user = user;
+  } else {
+    return res.redirect('/login');
+  }
   res.redirect('/');
 };
