@@ -29,7 +29,7 @@ export const postRegister = async (req, res) => {
       ratingErrorMsg: '카페의 평점은 1에서 10 사이입니다.',
     });
   }
-  const registeredCafe = await Cafe.create({
+  await Cafe.create({
     name,
     description,
     location,

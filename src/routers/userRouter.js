@@ -7,13 +7,15 @@ import {
   postEdit,
   getChangePassword,
   postChangePassword,
+} from '../controllers/userController';
+import {
   startKakaoLogin,
   finishKakaoLogin,
   startGoogleLogin,
   finishGoogleLogin,
   startNaverLogin,
   finishNaverLogin,
-} from '../controllers/userController';
+} from '../controllers/socialLoginController';
 import { uploadProfile } from '../middlewares/multer';
 
 const userRouter = express.Router();
