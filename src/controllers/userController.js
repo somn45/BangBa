@@ -66,7 +66,7 @@ export const postJoin = async (req, res) => {
     location,
     avatarUrl,
   });
-  res.redirect('/');
+  res.redirect('/login');
 };
 
 export const getLogin = (req, res) => {
@@ -94,7 +94,7 @@ export const postLogin = async (req, res) => {
       .render(LOGIN_PAGE, { errorMsg: '비밀번호가 일치하지 않습니다.' });
   }
   req.session.loggedIn = true;
-  req.session.user = user;
+  req.session.loggedUser = user;
   res.redirect('/');
 };
 
@@ -104,11 +104,13 @@ export const logout = (req, res) => {
 };
 
 export const profile = async (req, res) => {
-  const user = req.session.user;
+  const { userId } = req.params;
+  const user = await User.findById(userId).populate('registeredCafes');
+  console.log(user);
   if (!user) {
     return res.status(404).render('404');
   }
-  res.render('user/profile');
+  res.render('user/profile', { user });
 };
 
 export const getEdit = async (req, res) => {
@@ -117,7 +119,7 @@ export const getEdit = async (req, res) => {
   if (!user) {
     return res.status(404).render('404');
   }
-  res.render(EDIT_PAGE);
+  res.render(EDIT_PAGE, { user });
 };
 
 export const postEdit = async (req, res) => {
@@ -125,7 +127,7 @@ export const postEdit = async (req, res) => {
     // form의 입력값, 현재 로그인 되어있는 유저 정보 가져오기
     const { username, email, phoneNumber, location, watchlist } = req.body;
     const { file } = req;
-    const oldUser = req.session.user;
+    const oldUser = req.session.loggedUser;
 
     const avatarUrl = file
       ? file.path
@@ -163,7 +165,7 @@ export const postEdit = async (req, res) => {
       },
       { new: true }
     );
-    req.session.user = newUser;
+    req.session.loggedUser = newUser;
     res.redirect(`/users/${oldUser._id}`);
   } catch (err) {
     console.log(err);
@@ -182,7 +184,7 @@ export const getChangePassword = async (req, res) => {
 export const postChangePassword = async (req, res) => {
   // 유저 정보 가져오기
   const { oldPassword, newPassword, newPasswordConfirm } = req.body;
-  const user = req.session.user;
+  const user = req.session.loggedUser;
 
   // 확인을 위해 이전의 비밀번호 매칭
   const isMatchPassword = await bcrypt.compare(oldPassword, user.password);
@@ -213,8 +215,9 @@ export const postChangePassword = async (req, res) => {
 };
 
 export const signout = async (req, res) => {
-  const user = req.session.user;
-  await User.findByIdAndDelete(user._id);
+  const user = req.session.loggedUser;
+  await User.findByIdAndDelete({ _id: user._id });
   req.session.destroy();
+
   res.redirect('/');
 };

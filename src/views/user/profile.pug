@@ -6,7 +6,13 @@ block content
   else
     img(src="/assets/img/default.jpg")
   h1 My name is #{user.username}
-  p
-    a(href=`/users/${user._id}/edit`) 수정하기
-  p
-    a(href=`/users/${user._id}/signout`) 회원탈퇴
+  each cafe in user.registeredCafes
+    li #{cafe.name}
+  else
+    li 등록해주신 방탈출 카페가 없습니다.
+  if loggedUser
+    if String(loggedUser._id) === String(user._id)
+      p
+        a(href=`/users/${user._id}/edit`) 수정하기
+        p
+        a(href=`/users/${user._id}/signout`) 회원탈퇴

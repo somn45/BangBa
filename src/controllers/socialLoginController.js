@@ -64,7 +64,7 @@ export const finishKakaoLogin = async (req, res) => {
     }
 
     req.session.loggedIn = true;
-    req.session.user = user;
+    req.session.loggedUser = user;
   } else {
     return res.redirect('/login');
   }
@@ -80,6 +80,7 @@ export const startGoogleLogin = (req, res) => {
     response_type: 'code',
     scope: 'openid email',
     state: process.env.GOOGLE_STATE,
+    nonce: '2nk4nsink@amKI1NSKm2m6k9D9F9XCMMnksn43$!dfdkm',
   };
   const finalUrl = combineUrlAndParams(baseUrl, urlConfig);
   res.redirect(finalUrl);
@@ -164,7 +165,7 @@ export const finishNaverLogin = async (req, res) => {
       });
     }
     req.session.loggedIn = true;
-    req.session.user = user;
+    req.session.loggedUser = user;
   } else {
     return res.redirect('/login');
   }

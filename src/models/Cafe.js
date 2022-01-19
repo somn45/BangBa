@@ -1,4 +1,5 @@
 import mongoose, { model, Schema } from 'mongoose';
+import User from './User';
 
 const cafeSchema = new Schema({
   name: { type: String, required: true },
@@ -10,6 +11,7 @@ const cafeSchema = new Schema({
     rating: { type: Number },
   },
   backgroundUrl: { type: String },
+  owner: { type: Schema.Types.ObjectId, required: true, ref: 'users' },
 });
 
 const Cafe = model('cafes', cafeSchema);

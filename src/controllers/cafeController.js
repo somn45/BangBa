@@ -1,4 +1,5 @@
 import Cafe from '../models/Cafe';
+import User from '../models/User';
 
 const REGISTER_PAGE = 'cafe/register';
 
@@ -29,7 +30,8 @@ export const postRegister = async (req, res) => {
       ratingErrorMsg: '카페의 평점은 1에서 10 사이입니다.',
     });
   }
-  await Cafe.create({
+  const user = req.session.loggedUser;
+  const cafe = await Cafe.create({
     name,
     description,
     location,
@@ -39,13 +41,18 @@ export const postRegister = async (req, res) => {
       rating,
     },
     backgroundUrl,
+    owner: user._id,
+  });
+  console.log(cafe);
+  await User.findByIdAndUpdate(user._id, {
+    registeredCafes: [...user.registeredCafes, cafe._id],
   });
   res.redirect('/');
 };
 
 export const detail = async (req, res) => {
   const { cafeId } = req.params;
-  const cafe = await Cafe.findById(cafeId);
+  const cafe = await Cafe.findById(cafeId).populate('owner');
   if (!cafe) {
     return res.status(404).render('404');
   }
@@ -98,7 +105,7 @@ export const postEdit = async (req, res) => {
 
 export const deleteCafe = async (req, res) => {
   const { cafeId } = req.params;
-  const { cafe } = await Cafe.findById(cafeId);
+  const cafe = await Cafe.findById(cafeId);
   if (!cafe) {
     return res.status(404).render('404');
   }

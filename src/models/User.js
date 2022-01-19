@@ -11,6 +11,7 @@ const userSchema = new Schema({
   location: { type: String },
   avatarUrl: { type: String },
   watchlist: [{ type: String }],
+  registeredCafes: [{ type: Schema.Types.ObjectId, ref: 'cafes' }],
 });
 
 userSchema.pre('save', async function () {
