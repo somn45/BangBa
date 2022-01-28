@@ -3,40 +3,43 @@ extends ../templates/layout
 block content
   form(method='POST' enctype='multipart/form-data')
 
-    label(for='uid') 아이디*
-    input(name='uid' id='uid' type='text' placeholder='아이디' required)
-    span=uidErrorMsg
+    div
+      label(for='uid') 아이디*
+      input(name='uid' id='uid' type='text' placeholder='아이디' required)
+      span=uidErrorMsg
 
-    label(for='password') 비밀번호*
-    input(name='password' id='password' type='password' placeholder='비밀번호' required)
-    span=passwordErrorMsg
+    div
+      label(for='password') 비밀번호*
+      input(name='password' id='password' type='password' placeholder='비밀번호' required)
+      span=passwordErrorMsg
+    div
+      label(for='passwordConfirm') 비밀번호 확인*
+      input(name='passwordConfirm' id='passwordConfirm' type='password' placeholder='비밀번호 확인' required)
+      span=passwordConfirmErrorMsg
+    div
+      label(for='username') 유저명*
+      input(name='username' id='username' type='text' placeholder='유저의 닉네임' required)
+      span=usernameErrorMsg
+    div
+      label(for='email') 이메일
+      input(name='email' id='email' type='text' placeholder='이메일')
+      span=emailErrorMsg
+    div
+      label(for='phoneNumber') 휴대전화
+      input(name='phoneNumber' id='phoneNumber' type='number' placeholder='휴대전화')
+      span=phoneNumberErrorMsg
+    div
+      label(for='location') 주소명
+      input(name='location' id='location' type='text' placeholder='주소명')
+      span=addressErrorMsg
 
-    label(for='passwordConfirm') 비밀번호 확인*
-    input(name='passwordConfirm' id='passwordConfirm' type='password' placeholder='비밀번호 확인' required)
-    span=passwordConfirmErrorMsg
-
-    label(for='username') 유저명*
-    input(name='username' id='username' type='text' placeholder='유저의 닉네임' required)
-    span=usernameErrorMsg
-
-    label(for='email') 이메일
-    input(name='email' id='email' type='text' placeholder='이메일')
-    span=emailErrorMsg
-
-    label(for='phoneNumber') 휴대전화
-    input(name='phoneNumber' id='phoneNumber' type='number' placeholder='휴대전화')
-    span=phoneNumberErrorMsg
-
-    label(for='location') 주소명
-    input(name='location' id='location' type='text' placeholder='주소명')
-    span=addressErrorMsg
     hr
-    
-    label(for='avatar') 프로필 사진
-    input(name='avatar' id='avatar' type='file' accept='image/*')
-
-    label(for='watchlist') 관심있는 테마'
-    input(name='watchlist' id='watchlist' type='text' placeholder='관심있는 테마(쉼표로 테마들을 나눕니다.)')
-    span ※관심있는 테마를 등록하면 그 테마에 맞는 카페를 빠르게 찾아볼 수 있습니다.
-
-    input(type='submit' value='회원가입')
+    div
+      label(for='avatar') 프로필 사진
+      input(name='avatar' id='avatar' type='file' accept='image/*')
+    div
+      label(for='watchlist') 관심있는 테마'
+      input(name='watchlist' id='watchlist' type='text' placeholder='관심있는 테마(쉼표로 테마들을 나눕니다.)')
+      span.form__watchlist ※관심있는 테마를 등록하면 그 테마에 맞는 카페를 빠르게 찾아볼 수 있습니다.
+    div
+      input(type='submit' value='회원가입').form__submit

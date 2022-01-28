@@ -3,6 +3,7 @@ const path = require('path');
 
 module.exports = {
   entry: './src/client/js/index.js',
+  watch: true,
   mode: 'development',
   plugins: [
     new MiniCssExtractPlugin({
@@ -12,11 +13,13 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/index.js',
+    clean: true,
   },
   module: {
     rules: [
       {
         test: /\.js$/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {

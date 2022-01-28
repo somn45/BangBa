@@ -1,18 +1,45 @@
 extends ../templates/layout
+include ../mixins/profile-cafe
 
 block content
-  if(user.avatarUrl)
-    img(src=`/${user.avatarUrl}`)
-  else
-    img(src="/assets/img/default.jpg")
-  h1 My name is #{user.username}
-  each cafe in user.registeredCafes
-    li #{cafe.name}
-  else
-    li 등록해주신 방탈출 카페가 없습니다.
-  if loggedUser
-    if String(loggedUser._id) === String(user._id)
-      p
-        a(href=`/users/${user._id}/edit`) 수정하기
-        p
-        a(href=`/users/${user._id}/signout`) 회원탈퇴
+  div.profile__container
+    div.profile__name
+      div.profile__name__identity
+        h1 #{user.uid}
+        h3 #{user.username}
+      if(user.avatarUrl)
+        img(src=`/${user.avatarUrl}` alt=`${user.uid}님의 이미지`)
+      else
+        img(src="/assets/img/default.jpg" alt="디폴트 이미지")
+    ul.profile__info
+      li
+        p 이메일 : 
+        if(user.email)
+          p #{user.email}
+        else
+          p 등록해주신 이메일 정보가 없습니다.
+      li
+        p 휴대전화 : 
+        if(user.phoneNumber)
+          p #{user.phoneNumber}
+        else
+          p 등록해주신 휴대전화 정보가 없습니다.
+      li
+        p 주소 : 
+        if(user.location)
+          p #{user.location}
+        else
+          p 등록해주신 주소 정보가 없습니다.
+
+    div.profile__cafes
+      h3 등록한 방탈출 카페 목록
+    div.profile__cafes__list
+      each cafe in user.registeredCafes
+        +profile-cafe(cafe)
+      else
+        li 등록해주신 방탈출 카페가 없습니다.
+    if loggedUser
+      if String(loggedUser._id) === String(user._id)
+        div.profile__btns
+          a(href=`/users/${user._id}/edit`) 수정하기
+          a(href=`/users/${user._id}/signout`) 회원탈퇴

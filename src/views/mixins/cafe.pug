@@ -1,3 +1,8 @@
 mixin cafe(cafe)
-  li
-    a(href=`/cafes/${cafe._id}`) #{cafe.name}
+  li.cafe__item
+    a(href=`/cafes/${cafe._id}`)
+      img(src=`/${cafe.backgroundUrl}` alt=cafe.name)
+    h5 #{cafe.name}
+    div.cafe__meta
+      p 🔒 #{cafe.meta.level}.0
+      p ⭐#{cafe.meta.rating}.0

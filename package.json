@@ -4,8 +4,8 @@
   "description": "방탈출 카페를 자주 가는 사람들이 방탈출 카페를 검색하려면 일일히 검색하거나 인터넷 카페를 통해 찾을수 밖에 없습니다. 그런 사람들을 위해 난이도별, 테마별로 찾아주는 홈페이지를 만들기로 했습니다.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/index.js",
-    "build": "npx webpack"
+    "dev:server": "nodemon",
+    "dev:client": "npx webpack"
   },
   "repository": {
     "type": "git",
@@ -23,10 +23,12 @@
     "@babel/preset-env": "^7.16.7",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
+    "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.5.2",
     "nodemon": "^2.0.15",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
+    "url-loader": "^4.1.1",
     "webpack": "^5.66.0",
     "webpack-cli": "^4.9.1"
   },

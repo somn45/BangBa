@@ -1,0 +1,42 @@
+.home__container {
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home__title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.home__register {
+  width: 70%;
+  margin-bottom: 30px;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: $light-sky;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  transition: background-color 0.15s ease-in;
+  &:hover,
+  &:focus {
+    background-color: $sky;
+  }
+}
+
+.home__hr {
+  width: 100vw;
+  height: 1px;
+  margin-bottom: 20px;
+  background-color: rgba($color: black, $alpha: 0.3);
+}
+.home__cafes {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}

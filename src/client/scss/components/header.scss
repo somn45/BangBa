@@ -1,0 +1,38 @@
+header {
+  height: 80px;
+  padding: 20px 50px;
+  margin-bottom: 50px;
+  background-color: #000a12;
+  a {
+    padding: 30px 20px;
+    color: white;
+    display: block;
+    &:hover:not(.header__title) {
+      color: $link-hover;
+    }
+  }
+}
+
+nav,
+ul {
+  height: 100%;
+}
+
+ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.header__title {
+  font-size: 38px;
+}
+
+i {
+  font-size: 20px;
+}

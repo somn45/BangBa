@@ -82,7 +82,7 @@ export const postLogin = async (req, res) => {
   if (!confirmUid) {
     return res
       .status(404)
-      .render(LOGIN_PAGE, { errorMsg: 'ID가 존재하지 않습니다.' });
+      .render(LOGIN_PAGE, { uidErrorMsg: 'ID가 존재하지 않습니다.' });
   }
   const user = await User.findOne({ uid });
 
@@ -91,7 +91,9 @@ export const postLogin = async (req, res) => {
   if (!isMatchPassword) {
     return res
       .status(404)
-      .render(LOGIN_PAGE, { errorMsg: '비밀번호가 일치하지 않습니다.' });
+      .render(LOGIN_PAGE, {
+        passwordErrorMsg: '비밀번호가 일치하지 않습니다.',
+      });
   }
   req.session.loggedIn = true;
   req.session.loggedUser = user;

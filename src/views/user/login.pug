@@ -1,17 +1,25 @@
 extends ../templates/layout
 
 block content
-  span=errorMsg
   form(method='POST')
-    label(for='uid') 아이디
-    input(name='uid' id='uid' type='text' placeholder='아이디' required)
-    label(for='password') 비밀번호
-    input(name='password' id='password' type='password' placeholder='비밀번호' required)
-    input(type='submit' value='로그인')
+    div
+      label(for='uid') 아이디
+      input(name='uid' id='uid' type='text' placeholder='아이디' required)
+      span=uidErrorMsg
+    div
+      label(for='password') 비밀번호
+      input(name='password' id='password' type='password' placeholder='비밀번호' required)
+      span=passwordErrorMsg
+    div
+      input(type='submit' value='로그인').form__submit
   hr
-  p
-    a(href='/users/kakao/login') 카카오 로그인
-  p
-    a(href='/users/google/login') 구글 로그인
-  p
-    a(href='/users/naver/login') 네이버 로그인
+  div.social-login__box
+    p
+      a(href='/users/kakao/login')
+        img(src='/assets/img/kakao_login_medium_narrow.png')
+    p
+      a(href='/users/google/login')
+        img(src='/assets/img/btn_google_signin_light_normal_web.png')
+    p
+      a(href='/users/naver/login')
+        img(src='/assets/img/naver_login_image.png')

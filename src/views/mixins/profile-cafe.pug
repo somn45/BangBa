@@ -1,0 +1,5 @@
+mixin profile-cafe(cafe)
+  div.profile__cafe
+    a(href=`/cafes/${cafe._id}`).profile__cafe__name #{cafe.name}
+    p.profile__cafe__description #{cafe.description}
+    p.profile__cafe__themes #{cafe.theme}

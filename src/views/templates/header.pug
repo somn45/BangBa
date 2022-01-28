@@ -1,16 +1,18 @@
 header
   nav
     ul
-      li
-        a(href='/') Home
-
-      if(!loggedIn)
+      div.header__menu
         li
-          a(href='/join') Join
-        li
-          a(href='/login') Login
-      else
-        li
-          a(href='/logout') Log out
-        li
-          a(href=`/users/${loggedUser._id}`) Profile
+          a(href='/').header__title BangBa
+      div.header__login-box
+        if(loggedIn)
+          li
+            a(href=`/users/${loggedUser._id}`) 
+              i.fas.fa-user
+          li
+            a(href='/logout') 로그아웃
+        else
+          li
+            a(href='/join') 회원가입
+          li
+            a(href='/login') 로그인
