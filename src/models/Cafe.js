@@ -8,10 +8,12 @@ const cafeSchema = new Schema({
   location: { type: String, required: true },
   meta: {
     level: { type: Number, required: true },
+    recommendation: { type: Number },
     rating: { type: Number },
   },
   backgroundUrl: { type: String },
   owner: { type: Schema.Types.ObjectId, required: true, ref: 'users' },
+  comments: [{ type: Schema.Types.ObjectId, required: true, ref: 'comments' }],
 });
 
 const Cafe = model('cafes', cafeSchema);

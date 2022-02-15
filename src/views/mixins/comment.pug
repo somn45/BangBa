@@ -1,0 +1,13 @@
+mixin comment(comment)
+  li(data-commentid=comment._id).detail__comment
+    div.detail__comment__info
+      span 평점
+      div.detail__comment__btns
+        button.detail__comment__modify-btn 수정
+        button.detail__comment__modify-cancel.hidden 취소
+    div.detail__comment__text
+      span=comment.text
+      a(href=`/users/${comment.owner._id}`)=comment.owner.uid
+    form.detail__form--modify.hidden
+      textarea(cols="30" rows="5" placeholder="수정하고 싶은 방탈출 카페의 후기, 댓글을 입력해주세요")
+    button.detail__comment__delete X

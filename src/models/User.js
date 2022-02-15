@@ -11,7 +11,10 @@ const userSchema = new Schema({
   location: { type: String },
   avatarUrl: { type: String },
   watchlist: [{ type: String }],
-  registeredCafes: [{ type: Schema.Types.ObjectId, ref: 'cafes' }],
+  registeredCafes: [
+    { type: Schema.Types.ObjectId, required: true, ref: 'cafes' },
+  ],
+  comments: [{ type: Schema.Types.ObjectId, required: true, ref: 'comments' }],
 });
 
 userSchema.pre('save', async function () {

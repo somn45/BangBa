@@ -2,7 +2,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: './src/client/js/index.js',
+  entry: {
+    index: './src/client/js/index.js',
+    comment: './src/client/js/comment.js',
+    recommend: './src/client/js/recommend.js',
+  },
   watch: true,
   mode: 'development',
   plugins: [
@@ -12,7 +16,7 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/index.js',
+    filename: 'js/[name].js',
     clean: true,
   },
   module: {

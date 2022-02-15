@@ -83,3 +83,63 @@
     }
   }
 }
+
+.detail__form {
+  margin-top: 40px;
+  flex-direction: column;
+  align-items: center;
+  textarea {
+    width: 90%;
+    height: 100px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: $light-sky;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  button {
+    width: 35%;
+    height: 40px;
+    background-color: $light-sky;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.15s ease-in;
+    &:hover {
+      cursor: pointer;
+      background-color: $sky;
+    }
+  }
+}
+
+.detail__recommended-box {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  button {
+    width: 15%;
+    height: 20px;
+    padding: 10px;
+    background-color: #eeeeee;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    transition: background-color 0.3s ease-in-out;
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      background-color: $red;
+    }
+  }
+  span,
+  i {
+    font-size: 12px;
+    font-weight: 600;
+  }
+}

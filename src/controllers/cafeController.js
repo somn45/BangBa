@@ -24,12 +24,7 @@ export const postRegister = async (req, res) => {
       levelErrorMsg: '카페의 난이도는 1에서 5 사이입니다.',
     });
   }
-  // 카페의 평점이 1~10 사이인지 확인
-  if ((rating && rating <= 0) || rating > 10) {
-    return res.status(400).render(REGISTER_PAGE, {
-      ratingErrorMsg: '카페의 평점은 1에서 10 사이입니다.',
-    });
-  }
+
   const user = req.session.loggedUser;
   const cafe = await Cafe.create({
     name,
@@ -38,7 +33,6 @@ export const postRegister = async (req, res) => {
     theme: theme.split(','),
     meta: {
       level,
-      rating,
     },
     backgroundUrl,
     owner: user._id,
@@ -51,12 +45,23 @@ export const postRegister = async (req, res) => {
 };
 
 export const detail = async (req, res) => {
+  // 카페의 정보 DB에서 불러오기
   const { cafeId } = req.params;
-  const cafe = await Cafe.findById(cafeId).populate('owner');
+  const cafe = await Cafe.findById(cafeId)
+    .populate('owner')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'owner',
+      },
+    });
+
+  // 카페의 댓글 불러오기
+  const comments = cafe.comments;
   if (!cafe) {
     return res.status(404).render('404');
   }
-  res.render('cafe/detail', { cafe });
+  res.render('cafe/detail', { cafe, comments });
 };
 
 export const getEdit = async (req, res) => {
@@ -83,12 +88,6 @@ export const postEdit = async (req, res) => {
     });
   }
 
-  // 카페의 평점이 1~10 사이인지 확인
-  if (rating < 1 || rating > 10) {
-    return res.status(400).render('cafe/edit', {
-      ratingErrorMsg: '카페의 평점은 1에서 10 사이입니다.',
-    });
-  }
   await Cafe.findByIdAndUpdate(cafeId, {
     name,
     description,
@@ -96,7 +95,6 @@ export const postEdit = async (req, res) => {
     theme: theme.split(','),
     meta: {
       level,
-      rating,
     },
     backgroundUrl,
   });

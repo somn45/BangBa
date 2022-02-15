@@ -1,0 +1,93 @@
+.detail__comments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  li {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 40px;
+    border: 2px solid rgba($color: black, $alpha: 0.3);
+    background-color: rgba($color: $light-sky, $alpha: 0.3);
+    border-radius: 10px;
+    position: relative;
+    & > div {
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
+.detail__comment__info {
+  margin-bottom: 10px;
+  .detail__comment__btns {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      padding: 3px 10px;
+      background-color: $light-sky;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background-color 0.25s ease-in;
+      &:hover,
+      &:focus {
+        background-color: $sky;
+        cursor: pointer;
+      }
+      &:last-child {
+        margin-right: 10px;
+        background-color: $light-red;
+        &:hover,
+        &:focus {
+          outline: 2px solid $red;
+        }
+      }
+    }
+  }
+}
+
+.detail__comment__text {
+  display: hidden;
+  padding-bottom: 5px;
+  span {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  a {
+    font-size: 14px;
+    font-weight: 600;
+    color: $sky;
+    transition: color 0.15s ease-in;
+    &:hover {
+      color: $dark-sky;
+    }
+  }
+}
+
+.detail__comment__delete {
+  padding: 10px;
+  background-color: rgba($color: white, $alpha: 0);
+  color: $red;
+  border: none;
+  outline: none;
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  &:hover,
+  &:focus {
+    cursor: pointer;
+  }
+}
+
+.detail__form--modify {
+  @extend .detail__form;
+  margin: 5px;
+  textarea {
+    width: 100%;
+  }
+}
