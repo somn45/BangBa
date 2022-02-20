@@ -8,7 +8,8 @@ const cafeSchema = new Schema({
   location: { type: String, required: true },
   meta: {
     level: { type: Number, required: true },
-    recommendation: { type: Number },
+    recommendation: { type: Number, default: 0 },
+    recommendedUser: [{ type: Schema.Types.ObjectId, ref: 'users' }],
     rating: { type: Number },
   },
   backgroundUrl: { type: String },

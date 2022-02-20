@@ -61,6 +61,7 @@ export const detail = async (req, res) => {
   if (!cafe) {
     return res.status(404).render('404');
   }
+
   res.render('cafe/detail', { cafe, comments });
 };
 

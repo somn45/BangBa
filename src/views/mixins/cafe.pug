@@ -5,4 +5,11 @@ mixin cafe(cafe)
     h5 #{cafe.name}
     div.cafe__meta
       p 🔒 #{cafe.meta.level}.0
-      p ⭐#{cafe.meta.rating}.0
+      if !cafe.meta.rating
+        p ⭐0.0
+      else if cafe.meta.rating % 1 === 0
+        p ⭐#{cafe.meta.rating}.0
+      else
+        p ⭐#{cafe.meta.rating}
+    div.cafe__recommendation
+      p ❤ #{cafe.meta.recommendation}

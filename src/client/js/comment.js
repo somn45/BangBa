@@ -6,6 +6,10 @@ const textarea = form.querySelector('textarea');
 const button = form.querySelector('button');
 
 const detailComments = document.querySelector('.detail__comments');
+const scoreWrap = document.querySelector('.editable');
+const starIcons = scoreWrap.querySelectorAll('.fa-star');
+
+let finalScore;
 
 // 댓글 수정 시 보여줄 form 추가하기
 let modifyForm = document.createElement('form');
@@ -29,13 +33,14 @@ async function handleClickModifyBtn(event) {
   const targetEl = event.target;
   if (targetEl.classList.contains('detail__comment__modify-btn') && toggle) {
     const commentEl = targetEl.parentNode.parentNode.parentNode;
+    const commentScore = commentEl.querySelector('.detail__comment__score');
     const commentText = commentEl.querySelector('.detail__comment__text');
     const span = commentText.firstChild;
     const modifyBtn = event.target;
     const cancelModifyBtn = modifyBtn.nextSibling;
     const modifyArea = commentEl.querySelector('.detail__form--modify');
     const modifyTextarea = modifyArea.firstChild;
-
+    commentScore.addEventListener('click', handleClickScoreWrap);
     modifyArea.classList.remove('hidden');
     modifyTextarea.innerText = span.innerText;
     modifyBtn.innerText = '수정 완료';
@@ -47,6 +52,7 @@ async function handleClickModifyBtn(event) {
     };
     commentObj = {
       commentInfo,
+      commentScore,
       commentText,
       modifyArea,
     };
@@ -55,15 +61,18 @@ async function handleClickModifyBtn(event) {
     targetEl.classList.contains('detail__comment__modify-btn') &&
     !toggle
   ) {
-    const { commentInfo, commentText, modifyArea } = commentObj;
+    const { commentInfo, commentScore, commentText, modifyArea } = commentObj;
     const modifyBtn = event.target;
     const cancelModifyBtn = modifyBtn.nextSibling;
     const span = commentText.firstChild;
     const textarea = modifyArea.firstChild;
     const text = textarea.value;
+    const score = finalScore;
+    console.log(score);
+
     await fetch(`/comments/cafes/${commentInfo._id}/update`, {
       method: 'PATCH',
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text, score }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -73,10 +82,12 @@ async function handleClickModifyBtn(event) {
     modifyArea.classList.add('hidden');
     cancelModifyBtn.classList.add('hidden');
     toggle = !toggle;
+    commentScore.removeEventListener('click', handleClickScoreWrap);
   } else if (targetEl.classList.contains('detail__comment__modify-cancel')) {
-    const { modifyArea } = commentObj;
+    const { commentScore, modifyArea } = commentObj;
     const cancelModifyBtn = event.target;
     const modifyBtn = cancelModifyBtn.previousSibling;
+    commentScore.removeEventListener('click', handleClickScoreWrap);
     modifyBtn.innerText = '수정';
     modifyArea.classList.add('hidden');
     cancelModifyBtn.classList.add('hidden');
@@ -94,7 +105,7 @@ async function handleClickModifyBtn(event) {
   }
 }
 
-function addComment(comment) {
+function addComment(comment, score) {
   // 댓글을 담을 리스트 생성하기
   const newComment = document.createElement('li');
   newComment.setAttribute('data-commentid', comment._id);
@@ -103,8 +114,21 @@ function addComment(comment) {
   // 댓글 정보 공간 생성하기
   const commentInfo = document.createElement('div');
   commentInfo.classList.add('detail__comment__info');
-  const score = document.createElement('span');
-  score.innerText = '평점';
+
+  const scoreConfigWrap = document.createElement('div');
+  scoreConfigWrap.classList.add('detail__comment__score');
+  for (let i = 0; i < score; i++) {
+    const filledScore = document.createElement('i');
+    const filledScoreClass = ['fa-solid', 'fa-star', 'filled'];
+    filledScore.classList.add(...filledScoreClass);
+    scoreConfigWrap.appendChild(filledScore);
+  }
+  for (let j = score; j < 5; j++) {
+    const score = document.createElement('i');
+    const scoreClass = ['fa-solid', 'fa-star'];
+    score.classList.add(...scoreClass);
+    scoreConfigWrap.appendChild(score);
+  }
 
   // 댓글 수정 버튼을 생성하고 부모에 포함시키기
   const commentBtns = document.createElement('div');
@@ -119,7 +143,7 @@ function addComment(comment) {
   commentBtns.appendChild(modifyBtn);
   commentBtns.appendChild(cancelModifyBtn);
 
-  commentInfo.appendChild(score);
+  commentInfo.appendChild(scoreConfigWrap);
   commentInfo.appendChild(commentBtns);
 
   // 댓글 텍스트, 작성자가 포함된 공간 생성하기
@@ -133,20 +157,21 @@ function addComment(comment) {
   commentText.appendChild(span);
   commentText.appendChild(commentOwner);
 
+  // 댓글 삭제 버튼 생성하기
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerText = 'X';
+  deleteBtn.classList.add('detail__comment__delete');
+
+  // 댓글 수정, 삭제 기능에 쓰일 정보들 저장하기
   comment = {
     text: comment.text,
     _id: comment._id,
   };
-  // 수정 버튼, 수정 취소 버튼에 이벤트 부여하기
   commentObj = {
     comment,
     commentBtns,
     commentElement: commentText,
   };
-
-  const deleteBtn = document.createElement('button');
-  deleteBtn.innerText = 'X';
-  deleteBtn.classList.add('detail__comment__delete');
 
   // 댓글 관련 모든 요소 부모와 연결하기
   newComment.appendChild(commentInfo);
@@ -159,13 +184,17 @@ function addComment(comment) {
 // 댓글 등록 버튼 클릭 시 일어나는 이벤트
 async function handleSubmit(event) {
   event.preventDefault();
-  const text = textarea.value;
 
+  const text = textarea.value;
+  const scoreErrorMsg = document.querySelector('.detail__score__message');
   // 텍스트가 비어있을 경우 함수 건너뛰기
   if (text === '') {
     return;
+  } else if (!finalScore) {
+    scoreErrorMsg.innerText = '댓글 작성 시 평가점수를 입력해야 합니다.';
+    return;
   }
-
+  scoreErrorMsg.innerText = '';
   // 댓글 텍스트 fetch하기
   const { cafeid } = detailContainer.dataset;
   const response = await fetch(`/comments/cafes/${cafeid}`, {
@@ -173,7 +202,7 @@ async function handleSubmit(event) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text, score: finalScore }),
   });
 
   // fetch된 오브젝트에서 commentId 가져오기
@@ -182,8 +211,34 @@ async function handleSubmit(event) {
 
   // fetch가 성공적으로 이루어졌을 경우 댓글 즉각적으로 추가
   if (response.status === 201) {
-    addComment(comment);
+    addComment(comment, finalScore);
   }
 }
+
+function handleClickScoreWrap(event) {
+  let targetEl = event.target;
+  let previousTarget = targetEl.previousSibling;
+  let nextTarget = targetEl.nextSibling;
+  let score = 1;
+  targetEl.classList.add('filled');
+  for (let i = 0; i < 5; i++) {
+    if (previousTarget) {
+      previousTarget.classList.add('filled');
+      previousTarget = previousTarget.previousSibling;
+      score += 1;
+    } else {
+      break;
+    }
+  }
+  for (let j = score; j < 5; j++) {
+    if (nextTarget) {
+      nextTarget.classList.remove('filled');
+      nextTarget = nextTarget.nextSibling;
+    }
+  }
+  finalScore = score;
+}
+
+scoreWrap.addEventListener('click', handleClickScoreWrap);
 
 button.addEventListener('click', handleSubmit);

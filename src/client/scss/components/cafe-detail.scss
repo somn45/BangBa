@@ -88,6 +88,7 @@
   margin-top: 40px;
   flex-direction: column;
   align-items: center;
+  position: relative;
   textarea {
     width: 90%;
     height: 100px;
@@ -131,8 +132,7 @@
     justify-content: space-around;
     align-items: center;
     transition: background-color 0.3s ease-in-out;
-    &:hover,
-    &:focus {
+    &:hover {
       cursor: pointer;
       background-color: $red;
     }
@@ -141,5 +141,13 @@
   i {
     font-size: 12px;
     font-weight: 600;
+  }
+}
+
+.recommended {
+  background-color: #eeeeee;
+  color: $red;
+  &:hover {
+    color: black;
   }
 }

@@ -24,7 +24,9 @@ block content
       button#recommendButton
         i.fas.fa-heart
         span 추천
+    
     form.detail__form.show#commentForm
+      include ../mixins/scoreArea
       textarea(cols="30" rows="5" placeholder="방탈출 카페의 후기, 댓글을 입력해주세요")
       button 등록
     ul.detail__comments

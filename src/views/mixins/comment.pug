@@ -1,10 +1,18 @@
 mixin comment(comment)
+  - let n = 0;
   li(data-commentid=comment._id).detail__comment
     div.detail__comment__info
-      span 평점
-      div.detail__comment__btns
-        button.detail__comment__modify-btn 수정
-        button.detail__comment__modify-cancel.hidden 취소
+      div.detail__comment__score
+        while n < comment.score
+          i.fa-solid.fa-star.filled
+            - n++;
+        while n < 5
+          i.fa-solid.fa-star
+            - n++;
+      if String(comment.owner._id) === String(loggedUser._id)
+        div.detail__comment__btns
+          button.detail__comment__modify-btn 수정
+          button.detail__comment__modify-cancel.hidden 취소
     div.detail__comment__text
       span=comment.text
       a(href=`/users/${comment.owner._id}`)=comment.owner.uid
