@@ -13,10 +13,13 @@
 @import './components/comment.scss';
 @import './components/cafe.scss';
 @import './components/score-area.scss';
+@import './components/condition.scss';
 
 // Screens
 @import './screens/home.scss';
+@import './screens/search.scss';
 @import './screens/social-Login.scss';
+@import './screens/theme-modal.scss';
 
 * {
   box-sizing: border-box;

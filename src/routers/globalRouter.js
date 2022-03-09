@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { uploadProfile } from '../middlewares/multer';
-import { home } from '../controllers/cafeController';
+import { home, search } from '../controllers/cafeController';
 import {
   getJoin,
   postJoin,
@@ -25,6 +25,7 @@ globalRouter
   .route('/login')
   .get(guestPublicMiddleware, getLogin)
   .post(postLogin);
+globalRouter.get('/search', search);
 globalRouter.get('/logout', protectMiddleware, logout);
 
 export default globalRouter;

@@ -1,4 +1,5 @@
 import Cafe from '../models/Cafe';
+import User from '../models/User';
 
 export const checkRecommendedUser = async (req, res) => {
   const { cafeId } = req.params;
@@ -33,4 +34,16 @@ export const decreaseRecommendation = async (req, res) => {
   cafe.meta.recommendedUser = filter;
   await cafe.save();
   return res.sendStatus(200);
+};
+
+export const addWatchList = async (req, res) => {
+  const { themeList } = req.body;
+  const { loggedUser } = req.session;
+  if (!loggedUser) {
+    return res.sendStatus(404);
+  }
+  const user = await User.findByIdAndUpdate(req.session.loggedUser._id, {
+    watchlist: themeList,
+  });
+  res.sendStatus(200);
 };

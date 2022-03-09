@@ -67,6 +67,43 @@ form {
   }
 }
 
+.form__checkbox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  & > label {
+    max-width: 380px;
+    padding: 0 20px;
+  }
+  div {
+    width: 100%;
+    margin: 0;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    input[type='checkbox'] {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 20px;
+    }
+    input[type='checkbox']:checked + label {
+      color: #4347fa;
+      text-decoration: underline;
+    }
+    label {
+      width: 65px;
+      margin: {
+        right: 20px;
+        bottom: 20px;
+      }
+    }
+  }
+}
+
 .form__submit {
   cursor: pointer;
   transition: background 0.15s ease-in;

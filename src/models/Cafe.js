@@ -1,5 +1,4 @@
 import mongoose, { model, Schema } from 'mongoose';
-import User from './User';
 
 const cafeSchema = new Schema({
   name: { type: String, required: true },

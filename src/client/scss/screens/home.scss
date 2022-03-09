@@ -1,3 +1,6 @@
+main {
+  position: relative;
+}
 .home__container {
   max-width: 420px;
   margin: 0 auto;
@@ -10,6 +13,7 @@
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 15px;
+  opacity: 0;
 }
 
 .home__register {
@@ -28,6 +32,31 @@
   }
 }
 
+.home__subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.home__modal-btn {
+  width: 170px;
+  height: 45px;
+  margin: 30px 0;
+  border: 2px solid rgba($color: black, $alpha: 0.3);
+  border-radius: 10px;
+  background-color: white;
+  color: $sky;
+  font-size: 20px;
+  font-weight: 600;
+  transition: all 0.25s ease-in;
+  &:hover,
+  &:focus {
+    cursor: pointer;
+    background-color: $light-sky;
+    color: $dark-sky;
+  }
+}
+
 .home__hr {
   width: 100vw;
   height: 1px;
@@ -39,4 +68,21 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+}
+@keyframes showTitle {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.home__title--top {
+  animation: showTitle 0.8s 0.8s ease-in-out forwards;
+}
+.home__title--bottom {
+  margin-bottom: 50px;
+  animation: showTitle 0.8s 1.5s ease-in-out forwards;
 }

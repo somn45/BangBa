@@ -1,0 +1,38 @@
+article.theme-modal__wrap.hidden
+  form(method='post')
+    h2.theme-modal__title 방탈출 테마를 선택하세요
+    span.theme-modal__errorMsg
+    ul.theme__modal__checkboxs
+      li
+        input(type='checkbox' name='theme' value='SF' id='sf')
+        label(for='sf') SF
+
+      li
+        input(type='checkbox' name='theme' value='공포' id='horror')
+        label(for='horror') 공포
+
+      li
+        input(type='checkbox' name='theme' value='스릴러' id='thriller')
+        label(for='thriller') 스릴러
+
+      li
+        input(type='checkbox' name='theme' value='스토리' id='story')
+        label(for='story') 스토리
+
+      li
+        input(type='checkbox' name='theme' value='장치' id='device')
+        label(for='device') 장치
+
+      li
+        input(type='checkbox' name='theme' value='추리' id='reasoning')
+        label(for='reasoning') 추리
+
+      li
+        input(type='checkbox' name='theme' value='코미디' id='comedy')
+        label(for='comedy') 코미디
+
+      li
+        input(type='checkbox' name='theme' value='판타지' id='fantasy')
+        label(for='fantasy') 판타지
+      button.theme-modal__btn 테마 선택 완료
+    div.theme-modal__close X

@@ -30,7 +30,7 @@ export const postRegister = async (req, res) => {
     name,
     description,
     location,
-    theme: theme.split(','),
+    theme,
     meta: {
       level,
     },
@@ -65,6 +65,44 @@ export const detail = async (req, res) => {
   res.render('cafe/detail', { cafe, comments });
 };
 
+export const search = async (req, res) => {
+  let cafes, sortBy;
+
+  // 검색에 필요한 변수 불러오기
+  const { isDetail, keyword, theme, order } = req.query;
+  let { level } = req.query;
+  level = Number(level);
+
+  // order의 값에 따라 sort를 하기 위한 key값 준비
+  const searchReg = new RegExp(keyword);
+  switch (order) {
+    case 'recommendation':
+      sortBy = 'meta.recommendation';
+      break;
+    case 'rating':
+      sortBy = 'meta.rating';
+      break;
+  }
+  // keyword로만 검색했을 경우
+  if (!isDetail) {
+    cafes = await Cafe.find({
+      name: searchReg,
+    }).sort({ [sortBy]: -1 });
+  } else {
+    // keyword 없이 상세 조건으로만 검색했을 경우
+    cafes = await Cafe.find({
+      $and: [
+        { name: keyword ? searchReg : { $nin: '' } },
+        { theme: !theme ? { $nin: '' } : { $in: theme } },
+        {
+          'meta.level': level ? level : { $nin: '' },
+        },
+      ],
+    }).sort({ [sortBy]: -1 });
+  }
+  return res.render('cafe/search', { cafes });
+};
+
 export const getEdit = async (req, res) => {
   const { cafeId } = req.params;
   const cafe = await Cafe.findById(cafeId);
@@ -93,7 +131,7 @@ export const postEdit = async (req, res) => {
     name,
     description,
     location,
-    theme: theme.split(','),
+    theme,
     meta: {
       level,
     },

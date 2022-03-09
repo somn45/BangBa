@@ -14,9 +14,32 @@ block content
       label(for='location') 위치*
       input(name='location' id='location' type='text' placeholder='카페 위치' required)
       span=locationErrorMsg
-    div
-      label(for='theme') 테마*
-      input(name='theme' id='theme' type='text' placeholder='카페 테마(쉼표로 테마들을 나눕니다)' required)
+    div.form__checkbox
+      label(for='themes') 테마*
+      div
+        input(type='checkbox' name='theme' value='SF' id='sf')
+        label(for='sf') SF
+
+        input(type='checkbox' name='theme' value='공포' id='horror')
+        label(for='horror') 공포
+
+        input(type='checkbox' name='theme' value='스릴러' id='thriller')
+        label(for='thriller') 스릴러
+
+        input(type='checkbox' name='theme' value='스토리' id='story')
+        label(for='story') 스토리
+
+        input(type='checkbox' name='theme' value='장치' id='device')
+        label(for='device') 장치
+
+        input(type='checkbox' name='theme' value='추리' id='reasoning')
+        label(for='reasoning') 추리
+
+        input(type='checkbox' name='theme' value='코미디' id='comedy')
+        label(for='comedy') 코미디
+
+        input(type='checkbox' name='theme' value='판타지' id='fantasy')
+        label(for='fantasy') 판타지
       span=themeErrorMsg
     div
       label(for='level') 난이도* (1 ~ 5점)

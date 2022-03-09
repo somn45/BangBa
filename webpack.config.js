@@ -6,6 +6,8 @@ module.exports = {
     index: './src/client/js/index.js',
     comment: './src/client/js/comment.js',
     recommend: './src/client/js/recommend.js',
+    addTheme: './src/client/js/addTheme.js',
+    search: './src/client/js/search.js',
   },
   watch: true,
   mode: 'development',
