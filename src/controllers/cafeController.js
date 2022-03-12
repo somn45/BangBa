@@ -5,7 +5,24 @@ const REGISTER_PAGE = 'cafe/register';
 
 export const home = async (req, res) => {
   const cafes = await Cafe.find();
-  res.render('home', { cafes });
+  let interestedCafes = [];
+  let i = 0;
+  const { loggedUser } = req.session;
+  if (!loggedUser) {
+    return res.render('home', { cafes });
+  }
+  const { watchlist } = loggedUser;
+  for (let theme of watchlist) {
+    const interestedCafe = await Cafe.find({
+      theme,
+    })
+      .sort({ 'meta.rating': -1 })
+      .limit(6);
+    interestedCafes[i] = [theme, ...interestedCafe];
+    i += 1;
+  }
+  console.log(interestedCafes[0][1]);
+  res.render('home', { interestedCafes });
 };
 
 export const getRegister = (req, res) => {
@@ -37,7 +54,6 @@ export const postRegister = async (req, res) => {
     backgroundUrl,
     owner: user._id,
   });
-  console.log(cafe);
   await User.findByIdAndUpdate(user._id, {
     registeredCafes: [...user.registeredCafes, cafe._id],
   });

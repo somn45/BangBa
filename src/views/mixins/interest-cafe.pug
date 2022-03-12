@@ -1,0 +1,10 @@
+include cafe
+
+mixin cafes(cafes)
+  - let i;
+  li.cafes__container
+    h5=`#${cafes[0]}`
+    ul
+      -for(i = 1; i < cafes.length; i++)
+        +cafe(cafes[i])
+  

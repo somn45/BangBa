@@ -39,11 +39,17 @@ export const decreaseRecommendation = async (req, res) => {
 export const addWatchList = async (req, res) => {
   const { themeList } = req.body;
   const { loggedUser } = req.session;
+  console.log(themeList);
   if (!loggedUser) {
     return res.sendStatus(404);
   }
-  const user = await User.findByIdAndUpdate(req.session.loggedUser._id, {
-    watchlist: themeList,
-  });
+  const user = await User.findByIdAndUpdate(
+    { _id: req.session.loggedUser._id },
+    {
+      watchlist: themeList,
+    },
+    { new: true }
+  );
+  req.session.loggedUser = user;
   res.sendStatus(200);
 };

@@ -1,4 +1,5 @@
 extends templates/layout
+include mixins/interest-cafe
 include mixins/cafe
 
 block content
@@ -14,8 +15,8 @@ block content
     include templates/theme-modal
     div.home__hr
     ul.home__cafes
-      each cafe in cafes
-        +cafe(cafe)
+      each cafes in interestedCafes
+        +cafes(cafes)
       else
         li 좋아하는 방탈출 테마를 정해주세요!
 

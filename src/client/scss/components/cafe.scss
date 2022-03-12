@@ -1,6 +1,9 @@
 .cafe__item {
   width: 30%;
-  margin-right: 5px;
+  margin: {
+    right: 10px;
+    bottom: 30px;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;

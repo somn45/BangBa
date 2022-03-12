@@ -30,14 +30,37 @@ block content
           p #{user.location}
         else
           p 등록해주신 주소 정보가 없습니다.
+      li
+        p 관심테마 : 
+        if(user.watchlist)
+          p=user.watchlist.join(',')
+        else
+          p 등록해주신 관심테마가 없습니다.
+      li.profile__posted
+        div.profile__nav
+          h3.active 등록한 카페
+          h3 내가 쓴 댓글
+        ul.profile__posted-cafes
+          li.profile__posted__header
+            h5 이름
+            h5 설명
+            h5 테마
+          each cafe in user.registeredCafes
+            li.profile__posted-cafe
+              a(href=`/cafes/${cafe._id}`)=cafe.name
+              p=cafe.description
+              p=cafe.theme
+        ul.profile__posted-comment.hidden
+          li.profile__posted__header
+            h5 이름
+            h5 내용
+            h5 평점
+          each comment in user.comments
+            li.profile__posted-cafe
+              p=comment.cafe.name
+              p=comment.text
+              p=comment.score
 
-    div.profile__cafes
-      h3 등록한 방탈출 카페 목록
-    div.profile__cafes__list
-      each cafe in user.registeredCafes
-        +profile-cafe(cafe)
-      else
-        li 등록해주신 방탈출 카페가 없습니다.
     if loggedUser
       if String(loggedUser._id) === String(user._id)
         div.profile__btns
