@@ -15,10 +15,16 @@ block content
     include templates/theme-modal
     div.home__hr
     ul.home__cafes
-      each cafes in interestedCafes
-        +cafes(cafes)
+      if(loggedUser)
+        each cafes in interestedCafes
+          +cafes(cafes)
+        else
+          li 원하시는 테마의 방탈출 카페가 존재하지 않습니다.
       else
-        li 좋아하는 방탈출 테마를 정해주세요!
+        each cafe in cafes
+          +cafe(cafe)
+        else
+          li 방탈출 카페가 존재하지 않습니다.
 
 block script
   script(src='/dist/js/addTheme.js')

@@ -21,7 +21,6 @@ export const home = async (req, res) => {
     interestedCafes[i] = [theme, ...interestedCafe];
     i += 1;
   }
-  console.log(interestedCafes[0][1]);
   res.render('home', { interestedCafes });
 };
 
@@ -31,7 +30,7 @@ export const getRegister = (req, res) => {
 
 export const postRegister = async (req, res) => {
   // form의 입력값 받아오기
-  const { name, description, location, theme, level, rating } = req.body;
+  const { name, description, location, theme, level } = req.body;
   const { file } = req;
   const backgroundUrl = file ? file.path : '';
 
@@ -117,6 +116,10 @@ export const search = async (req, res) => {
     }).sort({ [sortBy]: -1 });
   }
   return res.render('cafe/search', { cafes });
+};
+
+export const searchMap = async (req, res) => {
+  res.render('cafe/search-map');
 };
 
 export const getEdit = async (req, res) => {

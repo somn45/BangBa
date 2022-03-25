@@ -53,3 +53,14 @@ export const addWatchList = async (req, res) => {
   req.session.loggedUser = user;
   res.sendStatus(200);
 };
+
+export const findLocation = async (req, res) => {
+  let message = '';
+  const { location } = req.query;
+  const cafes = await Cafe.find();
+  const results = cafes.filter((cafe) => cafe.location.includes(location));
+  if (results.length === 0) {
+    message = '찾으시는 지역에 방탈출 카페가 존재하지 않습니다.';
+  }
+  res.json({ results, message });
+};

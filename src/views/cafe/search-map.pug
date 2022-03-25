@@ -1,0 +1,31 @@
+extends ../templates/layout
+
+block content
+  section.map__container
+    article.map__search
+    h2 검색할 지역을 선택하세요
+    form.map__form
+      select(name='location')
+        option(value='') 지역 선택
+        option(value='홍대') 홍대
+        option(value='강남') 강남
+        option(value='논현') 논현
+        option(value='역삼') 역삼
+        option(value='인천') 인천
+        option(value='대전') 대전
+        option(value='광주') 광주
+        option(value='대구') 대구
+        option(value='울산') 울산
+        option(value='부산') 부산
+        option(value='경기') 경기도
+        option(value='강원') 강원도
+        option(value='충청') 충청도
+        option(value='전라') 전라도
+        option(value='경상') 경상도
+        option(value='제주') 제주도
+    article.map__view
+      div(style='width:500px;height:400px;')#map
+      button.getInfo 정보
+block script
+  script(type='text/javascript' src=`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_JAVASCRIPT_KEY}&libraries=clusterer,services,drawing`)
+  script(src='/dist/js/map.js')

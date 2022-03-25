@@ -4,6 +4,7 @@ import {
   increaseRecommendation,
   decreaseRecommendation,
   addWatchList,
+  findLocation,
 } from '../controllers/apiController';
 
 const apiRouter = express.Router();
@@ -18,5 +19,6 @@ apiRouter.post(
   decreaseRecommendation
 );
 apiRouter.post('/addWatchList', addWatchList);
+apiRouter.get('/search/map', findLocation);
 
 export default apiRouter;
