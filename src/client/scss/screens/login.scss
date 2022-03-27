@@ -1,0 +1,22 @@
+.form__login {
+  margin: 0 auto;
+}
+
+.login__footer,
+.join__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  * {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  a {
+    color: $sky;
+    &:hover,
+    &:focus {
+      color: $dark-sky;
+      text-decoration: underline;
+    }
+  }
+}

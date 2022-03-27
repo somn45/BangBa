@@ -152,6 +152,7 @@ export const finishNaverLogin = async (req, res) => {
       'https://openapi.naver.com/v1/nid/me',
       access_token
     );
+    console.log(userRequest);
     const {
       response: { id, nickname },
     } = userRequest;

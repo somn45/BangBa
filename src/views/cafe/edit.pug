@@ -10,10 +10,12 @@ block content
       label(for='description') 설명*
       textarea(name='description' id='description' type='text' placeholder='카페 설명' value=cafe.description cols='40' rows='5' required)
       span=descriptionErrorMsg
-    div
-      label(for='location') 위치*
-      input(name='location' id='location' type='text' placeholder='카페 위치' value=cafe.location required)
-      span=locationErrorMsg
+    div.form__address-wrap
+      label 주소*
+      input(name='zipcode' type='text' placeholder='우편번호' readonly).form__zipcode
+      input(type='button' value='우편번호 찾기').form__find-zipcode
+      input(name='location' type='text' placeholder='주소' value=cafe.location readonly).form__address
+      input(name='detailedAddress' type='text' placeholder='상세 주소').form__detailed-address
     div.form__checkbox
       label(for='themes') 테마*
       div
@@ -52,3 +54,6 @@ block content
       input(name='background' id='background' type='file' accept='image/*')
     div
       input(type='submit' value='내용 수정하기').form__submit
+block script
+  script(src='//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js')
+  script(src='/dist/js/address.js')

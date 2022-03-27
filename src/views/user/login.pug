@@ -1,7 +1,7 @@
 extends ../templates/layout
 
 block content
-  form(method='POST')
+  form(method='POST').form__login
     div
       label(for='uid') 아이디
       input(name='uid' id='uid' type='text' placeholder='아이디' required)
@@ -12,6 +12,9 @@ block content
       span=passwordErrorMsg
     div
       input(type='submit' value='로그인').form__submit
+  div.login__footer
+    span 계정이 없으신가요?
+    a(href='/join') 지금 회원가입하기 &rarr;
   hr
   ul.social-login__box
     li

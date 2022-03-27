@@ -10,11 +10,11 @@ block content
       label(for='description') 설명*
       textarea(name='description' id='description' type='text' placeholder='카페 설명' cols='40' rows='5' required)
       span=descriptionErrorMsg
-    div
+    div.form__address-wrap
       label 주소*
-      input(name='zipcode' type='text' placeholder='우편번호').form__zipcode
+      input(name='zipcode' type='text' placeholder='우편번호' readonly).form__zipcode
       input(type='button' value='우편번호 찾기').form__find-zipcode
-      input(name='location' type='text' placeholder='주소').form__address
+      input(name='location' type='text' placeholder='주소' readonly).form__address
       input(name='detailedAddress' type='text' placeholder='상세 주소').form__detailed-address
 
       span=locationErrorMsg

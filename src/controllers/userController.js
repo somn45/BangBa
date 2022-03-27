@@ -190,8 +190,9 @@ export const getChangePassword = async (req, res) => {
 
 export const postChangePassword = async (req, res) => {
   // 유저 정보 가져오기
+  const { userId } = req.params;
   const { oldPassword, newPassword, newPasswordConfirm } = req.body;
-  const user = req.session.loggedUser;
+  const user = await User.findById(userId);
 
   // 확인을 위해 이전의 비밀번호 매칭
   const isMatchPassword = await bcrypt.compare(oldPassword, user.password);

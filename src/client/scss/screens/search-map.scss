@@ -1,6 +1,10 @@
 .map__container {
   max-width: 420px;
   margin: 0 auto;
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+  }
 }
 
 .map__form {
@@ -9,7 +13,13 @@
   select {
     width: 100px;
     height: 30px;
+    font-size: 16px;
+    font-weight: 600;
   }
+}
+
+#map {
+  margin: 10px 0;
 }
 
 .infowindow {

@@ -11,6 +11,7 @@ module.exports = {
     search: './src/client/js/search.js',
     profile: './src/client/js/profile.js',
     map: './src/client/js/map.js',
+    cafeMap: './src/client/js/cafeMap.js',
   },
   watch: true,
   mode: 'development',

@@ -12,6 +12,7 @@
     position: relative;
     & > div {
       width: 100%;
+      display: flex;
       justify-content: space-between;
       align-items: center;
     }
@@ -20,6 +21,7 @@
 
 .detail__comment__info {
   margin-bottom: 10px;
+  display: flex;
   .detail__comment__btns {
     display: flex;
     flex-direction: row-reverse;
@@ -70,15 +72,21 @@
 }
 
 .detail__comment__delete {
+  width: 8px;
+  height: 8px;
   padding: 10px;
-  background-color: rgba($color: white, $alpha: 0);
+  background-color: rgba($color: $light-sky, $alpha: 0.8);
+  border: 2px solid rgba($color: black, $alpha: 0.3);
+  border-radius: 50%;
   color: $red;
-  font-size: 18px;
-  border: none;
+  font-size: 15px;
   outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  top: -20px;
-  right: -20px;
+  top: -10px;
+  right: -10px;
   &:hover,
   &:focus {
     cursor: pointer;

@@ -70,14 +70,14 @@ export const detail = async (req, res) => {
         path: 'owner',
       },
     });
-
-  // 카페의 댓글 불러오기
-  const comments = cafe.comments;
   if (!cafe) {
     return res.status(404).render('404');
   }
 
-  res.render('cafe/detail', { cafe, comments });
+  // 카페의 댓글 불러오기
+  const comments = cafe.comments;
+
+  res.render('cafe/detail', { cafe, comments: comments ? comments : '' });
 };
 
 export const search = async (req, res) => {

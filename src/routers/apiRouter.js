@@ -5,6 +5,7 @@ import {
   decreaseRecommendation,
   addWatchList,
   findLocation,
+  getCafeInfo,
 } from '../controllers/apiController';
 
 const apiRouter = express.Router();
@@ -20,5 +21,6 @@ apiRouter.post(
 );
 apiRouter.post('/addWatchList', addWatchList);
 apiRouter.get('/search/map', findLocation);
+apiRouter.get('/:cafeId([0-9a-z]{24})/getInfo', getCafeInfo);
 
 export default apiRouter;

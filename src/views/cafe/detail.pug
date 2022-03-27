@@ -20,6 +20,7 @@ block content
           a(href=`/cafes/${cafe._id}/delete`) 삭제하기
     
     hr
+    include ../templates/cafe-map
     div.detail__recommended-box
       button#recommendButton
         i.fas.fa-heart
@@ -34,5 +35,7 @@ block content
         +comment(comment)
         
 block script
+  script(type='text/javascript' src=`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_JAVASCRIPT_KEY}&libraries=clusterer,services,drawing`)
   script(src='/dist/js/comment.js')
   script(src='/dist/js/recommend.js')
+  script(src='/dist/js/cafeMap.js')

@@ -7,14 +7,16 @@
 }
 .search__header {
   width: 100%;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   span {
     width: 25%;
-    padding: 5px;
+    padding: 0 5px;
     font-size: 16px;
+    font-weight: 600;
     color: black;
     &:hover,
     &:focus {
@@ -24,15 +26,13 @@
   select {
     width: 20%;
     height: 25px;
+    font-size: 16px;
+    font-weight: 600;
     padding: 0 5px;
   }
 }
 .search__detail__wrap {
   width: 100%;
-  margin: {
-    top: 10px;
-    bottom: 0;
-  }
   padding: 20px;
   border-radius: 10px;
   display: flex;
@@ -40,7 +40,10 @@
   align-items: flex-start;
   h2 {
     width: 100%;
-    margin: 10px 0;
+    margin: {
+      top: 10px;
+      bottom: 20px;
+    }
     color: #888888;
     font-size: 24px;
     font-weight: 600;
@@ -55,9 +58,8 @@ hr {
 }
 
 .search__themes {
-  padding: 25px 10px;
-  margin-bottom: 15px;
-  background-color: rgba($color: #ddddee, $alpha: 0.5);
+  padding: 0 10px;
+  margin: 0;
   border-radius: 15px;
   display: flex;
   flex-direction: row;
@@ -72,10 +74,11 @@ hr {
     }
   }
   label {
-    max-width: 85px;
-    padding: 5px;
+    max-width: 80px;
+    padding: 5px 10px;
     margin-bottom: 10px;
-    border: 1px solid black;
+    background-color: rgba($color: #0a0a2a, $alpha: 0.3);
+    border-radius: 10px;
     font-weight: 400;
     text-align: center;
     transition: all 0.15s ease-in;
@@ -88,9 +91,8 @@ hr {
 
 .search__level {
   width: 100%;
-  padding: 25px 10px;
-  margin: 10px 0;
-  background-color: rgba($color: #ddddee, $alpha: 0.5);
+  padding: 0 10px;
+  margin: 0;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
@@ -105,11 +107,12 @@ hr {
     }
   }
   label {
-    width: 30%;
+    width: auto;
     height: 35px;
-    padding: 5px;
+    padding: 5px 10px;
     margin-right: 5px;
-    border: 1px solid black;
+    background-color: rgba($color: #0a0a2a, $alpha: 0.3);
+    border-radius: 10px;
     text-align: center;
     transition: all 0.15s ease-in;
     &:hover,

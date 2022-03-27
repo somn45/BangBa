@@ -46,6 +46,23 @@ form {
   }
 }
 
+.form__address-wrap {
+  input {
+    margin-bottom: 8px;
+  }
+  .form__zipcode,
+  .form__address {
+    background-color: #cccccc;
+  }
+  .form__find-zipcode {
+    background-color: $sky;
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+  }
+}
+
 .form__watchlist {
   color: black;
 }

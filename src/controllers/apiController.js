@@ -64,3 +64,11 @@ export const findLocation = async (req, res) => {
   }
   res.json({ results, message });
 };
+
+export const getCafeInfo = async (req, res) => {
+  const { cafeId } = req.params;
+  console.log(cafeId);
+  const cafe = await Cafe.findById(cafeId);
+  console.log(cafe);
+  return res.json({ cafe });
+};
