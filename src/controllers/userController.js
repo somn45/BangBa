@@ -89,11 +89,9 @@ export const postLogin = async (req, res) => {
   // 유저의 비밀번호가 옳은지 확인
   const isMatchPassword = await bcrypt.compare(password, user.password);
   if (!isMatchPassword) {
-    return res
-      .status(404)
-      .render(LOGIN_PAGE, {
-        passwordErrorMsg: '비밀번호가 일치하지 않습니다.',
-      });
+    return res.status(404).render(LOGIN_PAGE, {
+      passwordErrorMsg: '비밀번호가 일치하지 않습니다.',
+    });
   }
   req.session.loggedIn = true;
   req.session.loggedUser = user;
@@ -107,7 +105,14 @@ export const logout = (req, res) => {
 
 export const profile = async (req, res) => {
   const { userId } = req.params;
-  const user = await User.findById(userId).populate('registeredCafes');
+  const user = await User.findById(userId)
+    .populate('registeredCafes')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'cafe',
+      },
+    });
   console.log(user);
   if (!user) {
     return res.status(404).render('404');
@@ -185,8 +190,9 @@ export const getChangePassword = async (req, res) => {
 
 export const postChangePassword = async (req, res) => {
   // 유저 정보 가져오기
+  const { userId } = req.params;
   const { oldPassword, newPassword, newPasswordConfirm } = req.body;
-  const user = req.session.loggedUser;
+  const user = await User.findById(userId);
 
   // 확인을 위해 이전의 비밀번호 매칭
   const isMatchPassword = await bcrypt.compare(oldPassword, user.password);

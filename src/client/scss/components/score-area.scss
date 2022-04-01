@@ -1,0 +1,29 @@
+.detail__score {
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  top: -20px;
+  left: 40%;
+}
+
+.detail__comment__score {
+  display: flex;
+}
+
+.fa-star {
+  font-size: 16px;
+  color: #cccccc;
+}
+
+.detail__score__message {
+  color: $red;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.filled {
+  color: #f1dd11;
+}

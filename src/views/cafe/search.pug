@@ -1,0 +1,71 @@
+extends ../templates/layout
+include ../mixins/cafe
+
+block content
+  - let n = 0;
+  form(method='get').search__form
+    div.search__header
+      span ▼ 상세 검색
+      select(name='order')
+        option(name='order' value='date') 등록순
+        option(name='order' value='recommendation') 추천순
+        option(name='order' value='rating') 평점순
+    input(type='checkbox' name='isDetail' value='true')#detailedCheckBox.hidden
+    div.search__detail__wrap.hidden
+      div.search__themes
+        h2 테마
+        input(type='checkbox' name='theme' id='sf' value='SF')
+        label(for='sf') SF
+        input(type='checkbox' name='theme' id='horror' value='공포')
+        label(for='horror') 공포
+        input(type='checkbox' name='theme' id='thriller' value='스릴러')
+        label(for='thriller') 스릴러
+        input(type='checkbox' name='theme' id='story' value='스토리')
+        label(for='story') 스토리
+        input(type='checkbox' name='theme' id='device' value='장치')
+        label(for='device') 장치
+        input(type='checkbox' name='theme' id='reasoning' value='추리')
+        label(for='reasoning') 추리
+        input(type='checkbox' name='theme' id='comedy' value='코미디')
+        label(for='comedy') 코미디
+        input(type='checkbox' name='theme' id='fantasy' value='판타지')
+        label(for='fantasy') 판타지
+      hr
+      div.search__level
+        h2 난이도
+        input(type='radio' name='level' id='1' value=1)
+        label(for='1') 
+          i.fa-solid.fa-lock
+        input(type='radio' name='level' id='2' value=2)
+        label(for='2')
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+        input(type='radio' name='level' id='3' value=3)
+        label(for='3')
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+        input(type='radio' name='level' id='4' value=4)
+        label(for='4')
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+        input(type='radio' name='level' id='5' value=5)
+        label(for='5')
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+          i.fa-solid.fa-lock
+    div.search__bar
+      input(type='search' name='keyword' placeHolder='방탈출 카페 검색').search__bar
+      input(type='submit' value='검색')
+  ul.search__cafes
+    if(cafes)
+      each cafe in cafes
+        +cafe(cafe)
+block script
+  script(src='/dist/js/search.js')
+
+      

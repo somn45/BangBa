@@ -1,5 +1,9 @@
 .cafe__item {
   width: 30%;
+  margin: {
+    right: 10px;
+    bottom: 30px;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,13 +12,12 @@
   img {
     width: 100%;
     height: 150px;
-    border: 2px solid $sky;
     border-radius: 10px;
     margin-bottom: 5px;
-    transition: border 0.15s linear;
+    transition: transform 0.25s ease-in-out;
     &:hover,
     &:focus {
-      border: 3px solid $dark-sky;
+      transform: scale(1.05);
     }
   }
   h5 {
@@ -42,4 +45,11 @@
     justify-content: center;
     align-items: center;
   }
+}
+
+.cafe__recommendation {
+  color: $red;
+  position: absolute;
+  top: -17px;
+  left: 10px;
 }

@@ -5,7 +5,23 @@ const REGISTER_PAGE = 'cafe/register';
 
 export const home = async (req, res) => {
   const cafes = await Cafe.find();
-  res.render('home', { cafes });
+  let interestedCafes = [];
+  let i = 0;
+  const { loggedUser } = req.session;
+  if (!loggedUser) {
+    return res.render('home', { cafes });
+  }
+  const { watchlist } = loggedUser;
+  for (let theme of watchlist) {
+    const interestedCafe = await Cafe.find({
+      theme,
+    })
+      .sort({ 'meta.rating': -1 })
+      .limit(6);
+    interestedCafes[i] = [theme, ...interestedCafe];
+    i += 1;
+  }
+  res.render('home', { interestedCafes });
 };
 
 export const getRegister = (req, res) => {
@@ -14,7 +30,7 @@ export const getRegister = (req, res) => {
 
 export const postRegister = async (req, res) => {
   // form의 입력값 받아오기
-  const { name, description, location, theme, level, rating } = req.body;
+  const { name, description, location, theme, level } = req.body;
   const { file } = req;
   const backgroundUrl = file ? file.path : '';
 
@@ -24,26 +40,19 @@ export const postRegister = async (req, res) => {
       levelErrorMsg: '카페의 난이도는 1에서 5 사이입니다.',
     });
   }
-  // 카페의 평점이 1~10 사이인지 확인
-  if ((rating && rating <= 0) || rating > 10) {
-    return res.status(400).render(REGISTER_PAGE, {
-      ratingErrorMsg: '카페의 평점은 1에서 10 사이입니다.',
-    });
-  }
+
   const user = req.session.loggedUser;
   const cafe = await Cafe.create({
     name,
     description,
     location,
-    theme: theme.split(','),
+    theme,
     meta: {
       level,
-      rating,
     },
     backgroundUrl,
     owner: user._id,
   });
-  console.log(cafe);
   await User.findByIdAndUpdate(user._id, {
     registeredCafes: [...user.registeredCafes, cafe._id],
   });
@@ -51,12 +60,66 @@ export const postRegister = async (req, res) => {
 };
 
 export const detail = async (req, res) => {
+  // 카페의 정보 DB에서 불러오기
   const { cafeId } = req.params;
-  const cafe = await Cafe.findById(cafeId).populate('owner');
+  const cafe = await Cafe.findById(cafeId)
+    .populate('owner')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'owner',
+      },
+    });
   if (!cafe) {
     return res.status(404).render('404');
   }
-  res.render('cafe/detail', { cafe });
+
+  // 카페의 댓글 불러오기
+  const comments = cafe.comments;
+
+  res.render('cafe/detail', { cafe, comments: comments ? comments : '' });
+};
+
+export const search = async (req, res) => {
+  let cafes, sortBy;
+
+  // 검색에 필요한 변수 불러오기
+  const { isDetail, keyword, theme, order } = req.query;
+  let { level } = req.query;
+  level = Number(level);
+
+  // order의 값에 따라 sort를 하기 위한 key값 준비
+  const searchReg = new RegExp(keyword);
+  switch (order) {
+    case 'recommendation':
+      sortBy = 'meta.recommendation';
+      break;
+    case 'rating':
+      sortBy = 'meta.rating';
+      break;
+  }
+  // keyword로만 검색했을 경우
+  if (!isDetail) {
+    cafes = await Cafe.find({
+      name: searchReg,
+    }).sort({ [sortBy]: -1 });
+  } else {
+    // keyword 없이 상세 조건으로만 검색했을 경우
+    cafes = await Cafe.find({
+      $and: [
+        { name: keyword ? searchReg : { $nin: '' } },
+        { theme: !theme ? { $nin: '' } : { $in: theme } },
+        {
+          'meta.level': level ? level : { $nin: '' },
+        },
+      ],
+    }).sort({ [sortBy]: -1 });
+  }
+  return res.render('cafe/search', { cafes });
+};
+
+export const searchMap = async (req, res) => {
+  res.render('cafe/search-map');
 };
 
 export const getEdit = async (req, res) => {
@@ -83,20 +146,13 @@ export const postEdit = async (req, res) => {
     });
   }
 
-  // 카페의 평점이 1~10 사이인지 확인
-  if (rating < 1 || rating > 10) {
-    return res.status(400).render('cafe/edit', {
-      ratingErrorMsg: '카페의 평점은 1에서 10 사이입니다.',
-    });
-  }
   await Cafe.findByIdAndUpdate(cafeId, {
     name,
     description,
     location,
-    theme: theme.split(','),
+    theme,
     meta: {
       level,
-      rating,
     },
     backgroundUrl,
   });

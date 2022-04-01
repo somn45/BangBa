@@ -46,6 +46,23 @@ form {
   }
 }
 
+.form__address-wrap {
+  input {
+    margin-bottom: 8px;
+  }
+  .form__zipcode,
+  .form__address {
+    background-color: #cccccc;
+  }
+  .form__find-zipcode {
+    background-color: $sky;
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+  }
+}
+
 .form__watchlist {
   color: black;
 }
@@ -64,6 +81,43 @@ form {
   &:hover,
   &:focus {
     outline: 2px solid #d32f2f;
+  }
+}
+
+.form__checkbox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  & > label {
+    max-width: 380px;
+    padding: 0 20px;
+  }
+  div {
+    width: 100%;
+    margin: 0;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    input[type='checkbox'] {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 20px;
+    }
+    input[type='checkbox']:checked + label {
+      color: #4347fa;
+      text-decoration: underline;
+    }
+    label {
+      width: 65px;
+      margin: {
+        right: 20px;
+        bottom: 20px;
+      }
+    }
   }
 }
 

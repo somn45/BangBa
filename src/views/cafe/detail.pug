@@ -1,8 +1,9 @@
 extends ../templates/layout
 include ../mixins/theme
+include ../mixins/comment
 
 block content
-  div.detail__container
+  section.detail__container(data-cafeId=cafe._id)
     img(src=`/${cafe.backgroundUrl}` alt=cafe.name width=400 height=400)
     h2=cafe.name
     div.detail__registrant
@@ -17,3 +18,24 @@ block content
         if String(cafe.owner._id) === String(loggedUser._id)
           a(href=`/cafes/${cafe._id}/edit`) 내용 수정하기
           a(href=`/cafes/${cafe._id}/delete`) 삭제하기
+    
+    hr
+    include ../templates/cafe-map
+    div.detail__recommended-box
+      button#recommendButton
+        i.fas.fa-heart
+        span 추천
+    
+    form.detail__form.show#commentForm
+      include ../mixins/scoreArea
+      textarea(cols="30" rows="5" placeholder="방탈출 카페의 후기, 댓글을 입력해주세요")
+      button 등록
+    ul.detail__comments
+      each comment in comments.reverse()
+        +comment(comment)
+        
+block script
+  script(type='text/javascript' src=`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_JAVASCRIPT_KEY}&libraries=clusterer,services,drawing`)
+  script(src='/dist/js/comment.js')
+  script(src='/dist/js/recommend.js')
+  script(src='/dist/js/cafeMap.js')

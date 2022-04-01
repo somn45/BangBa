@@ -1,0 +1,163 @@
+.search__form {
+  padding: 0;
+  margin: 0 auto 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.search__header {
+  width: 100%;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    width: 25%;
+    padding: 0 5px;
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+  }
+  select {
+    width: 20%;
+    height: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0 5px;
+  }
+}
+.search__detail__wrap {
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  h2 {
+    width: 100%;
+    margin: {
+      top: 10px;
+      bottom: 20px;
+    }
+    color: #888888;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+  }
+}
+
+hr {
+  width: 100%;
+  height: 3px;
+  background-color: black;
+}
+
+.search__themes {
+  padding: 0 10px;
+  margin: 0;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  input {
+    display: none;
+    &:checked + label {
+      background-color: black;
+      color: $sky;
+      font-weight: 600;
+    }
+  }
+  label {
+    max-width: 80px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    background-color: rgba($color: #0a0a2a, $alpha: 0.3);
+    border-radius: 10px;
+    font-weight: 400;
+    text-align: center;
+    transition: all 0.15s ease-in;
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+  }
+}
+
+.search__level {
+  width: 100%;
+  padding: 0 10px;
+  margin: 0;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  input {
+    display: none;
+    &:checked + label {
+      background-color: black;
+      color: #f0d342;
+    }
+  }
+  label {
+    width: auto;
+    height: 35px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: rgba($color: #0a0a2a, $alpha: 0.3);
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.15s ease-in;
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+    i {
+      font-size: 16px;
+    }
+  }
+}
+
+.search__bar {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  input {
+    padding: 5px;
+    border-radius: 10px;
+    &[type='search'] {
+      width: 85%;
+      margin-right: 5px;
+      &:hover,
+      &:focus {
+        outline: 2px solid black;
+      }
+    }
+    &[type='submit'] {
+      width: 14%;
+      transition: background-color 0.15s ease-in;
+      &:hover,
+      &:focus {
+        cursor: pointer;
+        background-color: $sky;
+        border: none;
+      }
+    }
+  }
+}
+.search__cafes {
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}

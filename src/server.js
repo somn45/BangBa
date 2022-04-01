@@ -8,7 +8,8 @@ import MongoStore from 'connect-mongo';
 import globalRouter from './routers/globalRouter';
 import userRouter from './routers/userRouter';
 import cafeRouter from './routers/cafeRouter';
-
+import commentRouter from './routers/commentRouter';
+import apiRouter from './routers/apiRouter';
 import { sessionMiddleware } from './middlewares/sessionMiddleware';
 
 const COOKIE_EXPIRY_TIME = 1000 * 60 * 60 * 24 * 7;
@@ -19,6 +20,7 @@ app.set('view engine', 'pug');
 app.set('views', path.resolve(__dirname, 'views'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
@@ -38,5 +40,7 @@ app.use('/dist', express.static('dist'));
 app.use('/', globalRouter);
 app.use('/users', userRouter);
 app.use('/cafes', cafeRouter);
+app.use('/comments', commentRouter);
+app.use('/api', apiRouter);
 
 export default app;

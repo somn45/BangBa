@@ -15,13 +15,19 @@
   align-items: center;
   .profile__name__identity {
     width: 200px;
-    height: 60px;
+    height: 80px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;
     h1 {
+      width: 100%;
+      height: 50px;
+      margin-bottom: 10px;
       font-size: 42px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     h3 {
       font-size: 20px;
@@ -56,23 +62,81 @@
   }
 }
 
-.profile__cafes {
+.profile__posted {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  h3 {
-    margin-bottom: 10px;
+  ul {
+    width: 100%;
+    min-height: 250px;
+    padding: 20px 0;
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
   }
 }
 
-.profile__cafes__list {
-  width: 100%;
-  height: 300px;
-  padding: 20px;
+.profile__nav {
+  width: 55%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
+  & > h3 {
+    width: 45%;
+    height: 35px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.25s ease-in-out;
+    &:hover {
+      cursor: pointer;
+      color: $sky;
+    }
+  }
+}
+
+.active {
+  border-bottom: 2px solid $sky;
+}
+
+.profile__posted__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  h5 {
+    width: 33%;
+    color: black;
+    font-weight: 600;
+  }
+}
+
+.profile__posted-cafe {
+  height: 25px;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed rgba($color: black, $alpha: 0.3);
+  a,
+  p {
+    width: 33%;
+    height: 25px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  a:hover {
+    color: $dark-sky;
+    text-decoration: underline;
+  }
+  p:nth-child(2) {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  p:last-child {
+    text-align: right;
+  }
 }
 
 .profile__btns {

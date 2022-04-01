@@ -1,9 +1,13 @@
 header
   nav
-    ul
+    ul.header__list
       div.header__menu
         li
           a(href='/').header__title BangBa
+        li
+          a(href='/search') 검색
+        li
+          a(href='/search/map') 지도
       div.header__login-box
         if(loggedIn)
           li
