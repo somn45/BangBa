@@ -37,6 +37,7 @@ async function handleSubmit(event) {
     modalErrorMsg.innerText = '로그인 한 유저만 관심테마를 설정할 수 있습니다.';
     return;
   }
+  window.location.reload();
 }
 
 function handleClickCloseBtn(event) {

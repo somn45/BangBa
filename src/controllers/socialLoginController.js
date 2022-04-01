@@ -32,6 +32,7 @@ export const finishKakaoLogin = async (req, res) => {
     'application/x-www-form-urlencoded;charset=utf-8'
   );
   if ('access_token' in tokenRequest) {
+    const { access_token } = tokenRequest;
     const userRequest = await getUserData(
       'https://kapi.kakao.com/v2/user/me',
       access_token
@@ -78,7 +79,8 @@ export const startGoogleLogin = (req, res) => {
     client_id: process.env.GOOGLE_CLIENT_ID,
     redirect_uri: 'http://localhost:4000/users/google/oauth',
     response_type: 'code',
-    scope: 'openid email',
+    scope:
+      'https://www.googleapis.com/auth/userinfo.email openid https://www.googleapis.com/auth/userinfo.profile',
     state: process.env.GOOGLE_STATE,
     nonce: '2nk4nsink@amKI1NSKm2m6k9D9F9XCMMnksn43$!dfdkm',
   };
@@ -97,6 +99,7 @@ export const finishGoogleLogin = async (req, res) => {
     redirect_uri: 'http://localhost:4000/users/google/oauth',
   };
   const finalUrl = combineUrlAndParams(baseUrl, urlConfig);
+  console.log(finalUrl);
   const tokenRequest = await (
     await fetch(finalUrl, {
       method: 'POST',
@@ -108,13 +111,27 @@ export const finishGoogleLogin = async (req, res) => {
   if ('access_token' in tokenRequest) {
     const { access_token } = tokenRequest;
     const userRequest = await (
-      await fetch('https://www.googleapis.com/drive/v2/files', {
+      await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
       })
     ).json();
-    console.log(userRequest);
+    const { id, name, email, verified_email, picture } = userRequest;
+    let user = await User.findOne({ uid: id });
+    console.log(user);
+    if (!user) {
+      user = await User.create({
+        uid: id,
+        password: process.env.GOOGLE_PASSWORD,
+        username: name,
+        email: verified_email ? email : '',
+        avatarUrl: picture ? picture : '',
+        isSocialAccount: true,
+      });
+    }
+    req.session.loggedIn = true;
+    req.session.loggedUser = user;
   } else {
     return res.redirect('/login');
   }
@@ -152,7 +169,6 @@ export const finishNaverLogin = async (req, res) => {
       'https://openapi.naver.com/v1/nid/me',
       access_token
     );
-    console.log(userRequest);
     const {
       response: { id, nickname },
     } = userRequest;
@@ -161,8 +177,8 @@ export const finishNaverLogin = async (req, res) => {
       user = await User.create({
         uid: id,
         password: process.env.NAVER_PASSWORD,
-        isSocialAccount: true,
         username: nickname,
+        isSocialAccount: true,
       });
     }
     req.session.loggedIn = true;

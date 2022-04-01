@@ -5,7 +5,7 @@ const userSchema = new Schema({
   uid: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   isSocialAccount: { type: Boolean, default: false },
-  username: { type: String, required: true, unique: true },
+  username: { type: String, unique: true },
   email: { type: String },
   phoneNumber: { type: String },
   location: { type: String },
