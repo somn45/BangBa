@@ -97,6 +97,11 @@
     }
   }
 }
+@media (max-width: 412px) {
+  .profile__nav > h3 {
+    width: 100px;
+  }
+}
 
 .active {
   border-bottom: 2px solid $sky;

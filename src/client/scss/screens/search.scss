@@ -31,6 +31,17 @@
     padding: 0 5px;
   }
 }
+@media (max-width: 375px) {
+  .search__form {
+    padding: 0 10px;
+    span {
+      width: 100px;
+    }
+    select {
+      width: 80px;
+    }
+  }
+}
 .search__detail__wrap {
   width: 100%;
   padding: 20px;

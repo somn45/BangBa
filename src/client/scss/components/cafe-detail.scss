@@ -143,6 +143,14 @@
     font-weight: 600;
   }
 }
+@media (max-width: 412px) {
+  .detail__recommended-box {
+    width: 95%;
+    button {
+      width: 60px;
+    }
+  }
+}
 
 .recommended {
   background-color: #eeeeee;

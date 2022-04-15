@@ -53,6 +53,7 @@ export const postRegister = async (req, res) => {
     backgroundUrl,
     owner: user._id,
   });
+  console.log(user.registeredCafes);
   await User.findByIdAndUpdate(user._id, {
     registeredCafes: [...user.registeredCafes, cafe._id],
   });

@@ -19,12 +19,12 @@ block content
         each cafes in interestedCafes
           +cafes(cafes)
         else
-          li 원하시는 테마의 방탈출 카페가 존재하지 않습니다.
+          h5 원하시는 테마의 방탈출 카페가 존재하지 않습니다.
       else
         each cafe in cafes
           +cafe(cafe)
         else
-          li 방탈출 카페가 존재하지 않습니다.
+          h5 방탈출 카페가 존재하지 않습니다.
 
 block script
   script(src='/dist/js/addTheme.js')
