@@ -7,7 +7,9 @@ export const createComment = async (req, res) => {
   const { text, score } = req.body;
   const { loggedIn, loggedUser } = req.session;
   if (!loggedIn) {
-    return res.sendStatus(400);
+    return res
+      .status(400)
+      .json({ errorMsg: '게스트 유저는 댓글을 작성할 수 없습니다.' });
   }
   let comment = await Comment.create({
     text,
@@ -19,10 +21,10 @@ export const createComment = async (req, res) => {
   // 방탈출 카페에 등록된 댓글 DB에 저장
   const cafe = await Cafe.findById(cafeId).populate('comments');
   cafe.comments.push(comment);
-  const sum = cafe.comments.reduce((sum, currentValue) => {
+  const sumOfUserScore = cafe.comments.reduce((sum, currentValue) => {
     return sum + currentValue.score;
   }, 0);
-  const cafeScore = (sum / cafe.comments.length).toFixed(1);
+  const cafeScore = (sumOfUserScore / cafe.comments.length).toFixed(1);
   cafe.meta.rating = cafeScore;
   await cafe.save();
 
@@ -43,10 +45,10 @@ export const modifyComment = async (req, res) => {
   }).populate('cafe');
 
   const cafe = await Cafe.findById(comment.cafe._id).populate('comments');
-  const sum = cafe.comments.reduce((sum, currentValue) => {
+  const sumOfUserScore = cafe.comments.reduce((sum, currentValue) => {
     return sum + currentValue.score;
   }, 0);
-  const cafeScore = (sum / cafe.comments.length).toFixed(1);
+  const cafeScore = (sumOfUserScore / cafe.comments.length).toFixed(1);
   cafe.meta.rating = cafeScore;
   await cafe.save();
   return res.sendStatus(200);
@@ -57,10 +59,10 @@ export const deleteComment = async (req, res) => {
   const comment = await Comment.findById(commentId).populate('cafe');
   const cafe = await Cafe.findById(comment.cafe._id).populate('comments');
   await Comment.findByIdAndDelete(commentId);
-  const sum = cafe.comments.reduce((sum, currentValue) => {
+  const sumOfUserScore = cafe.comments.reduce((sum, currentValue) => {
     return sum + currentValue.score;
   }, 0);
-  const cafeScore = (sum / cafe.comments.length).toFixed(1);
+  const cafeScore = (sumOfUserScore / cafe.comments.length).toFixed(1);
   cafe.meta.rating = cafeScore;
   await cafe.save();
   return res.sendStatus(200);

@@ -3,13 +3,17 @@ const recommendBox = document.querySelector('.detail__recommended-box');
 const recommendBtn = recommendBox.querySelector('button');
 const { cafeid } = detailContainer.dataset;
 
-fetch(`/api/${cafeid}/recommend`, {
-  method: 'GET',
-}).then((response) => {
+checkRecommendation();
+
+async function checkRecommendation() {
+  const response = await fetch(`/api/${cafeid}/recommend`, {
+    method: 'GET',
+  });
+  console.log(response);
   if (response.status === 200) {
     recommendBtn.classList.add('recommended');
   }
-});
+}
 
 async function handleRecommendBtn(event) {
   if (!recommendBtn.classList.contains('recommended')) {

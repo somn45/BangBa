@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt';
-
 import User from '../models/User';
 
 const JOIN_PAGE = 'user/join';
 const LOGIN_PAGE = 'user/login';
 const EDIT_PAGE = 'user/edit';
+const CHANGE_PASSWORD_PAGE = 'user/change-password';
+const NOT_FOUND_PAGE = '404';
 
 export const getJoin = (req, res) => {
   res.render(JOIN_PAGE);
@@ -41,8 +42,7 @@ export const postJoin = async (req, res) => {
   }
 
   // 비밀번호와 비밀번호 확인란이 일치하는지 확인
-  const isSamePwdAndPwdConfirm = Boolean(password === passwordConfirm);
-  if (!isSamePwdAndPwdConfirm) {
+  if (!(password === passwordConfirm)) {
     return res.status(400).render(JOIN_PAGE, {
       passwordErrorMsg: '비밀번호, 비밀번호 확인란이 일치하지 않습니다.',
     });
@@ -115,7 +115,7 @@ export const profile = async (req, res) => {
     });
   console.log(user);
   if (!user) {
-    return res.status(404).render('404');
+    return res.status(404).render(NOT_FOUND_PAGE);
   }
   res.render('user/profile', { user });
 };
@@ -124,7 +124,7 @@ export const getEdit = async (req, res) => {
   const { userId } = req.params;
   const user = await User.findById(userId);
   if (!user) {
-    return res.status(404).render('404');
+    return res.status(404).render(NOT_FOUND_PAGE);
   }
   res.render(EDIT_PAGE, { user });
 };
@@ -183,9 +183,9 @@ export const getChangePassword = async (req, res) => {
   const { userId } = req.params;
   const user = await User.findById(userId);
   if (!user) {
-    return res.status(404).render('404');
+    return res.status(404).render(NOT_FOUND_PAGE);
   }
-  res.render('user/change-password');
+  res.render(CHANGE_PASSWORD_PAGE);
 };
 
 export const postChangePassword = async (req, res) => {
@@ -197,21 +197,21 @@ export const postChangePassword = async (req, res) => {
   // 확인을 위해 이전의 비밀번호 매칭
   const isMatchPassword = await bcrypt.compare(oldPassword, user.password);
   if (!isMatchPassword) {
-    return res.status(400).render('user/change-password', {
+    return res.status(400).render(CHANGE_PASSWORD_PAGE, {
       oldPasswordErrorMsg: '비밀번호가 맞지 않습니다.',
     });
   }
 
   // 이전 비밀번호와 새 비밀번호가 다른지 확인
   if (oldPassword === newPassword) {
-    return res.status(400).render('user/change-password', {
+    return res.status(400).render(CHANGE_PASSWORD_PAGE, {
       newPasswordErrorMsg: '이전 비밀번호와 같아 변경할 수 없습니다.',
     });
   }
 
   // 새 비밀번호와 새 비밀번호 확인란이 일치하는지 확인
   if (newPassword !== newPasswordConfirm) {
-    return res.status(400).render('user/change-password', {
+    return res.status(400).render(CHANGE_PASSWORD_PAGE, {
       newPasswordErrorMsg:
         '새로운 비밀번호, 새로운 비밀번호 확인란이 일치하지 않습니다.',
     });

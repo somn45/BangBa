@@ -20,7 +20,6 @@ async function handleSubmit(event) {
       themeList.push(checkbox.defaultValue);
     }
   });
-  console.log(themeList.length);
   if (themeList.length <= 0) {
     modalErrorMsg.innerText = '적어도 한가지의 테마를 지정해주셔야 합니다.';
     return;

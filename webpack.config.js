@@ -4,14 +4,12 @@ const path = require('path');
 module.exports = {
   entry: {
     index: './src/client/js/index.js',
-    comment: './src/client/js/comment.js',
-    recommend: './src/client/js/recommend.js',
+    cafeDetail: './src/client/js/cafeDetail/cafeDetail.js',
     addTheme: './src/client/js/addTheme.js',
     address: './src/client/js/address.js',
     search: './src/client/js/search.js',
     profile: './src/client/js/profile.js',
     map: './src/client/js/map.js',
-    cafeMap: './src/client/js/cafeMap.js',
   },
   watch: true,
   mode: 'development',

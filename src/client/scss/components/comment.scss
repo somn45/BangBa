@@ -19,7 +19,7 @@
   }
 }
 
-.detail__comment__info {
+.detail__comment__column__first {
   margin-bottom: 10px;
   display: flex;
   .detail__comment__btns {
@@ -53,7 +53,7 @@
   }
 }
 
-.detail__comment__text {
+.detail__comment__column__second {
   display: hidden;
   padding-bottom: 5px;
   span {
