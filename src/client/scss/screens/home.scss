@@ -15,7 +15,11 @@ main {
   margin-bottom: 15px;
   opacity: 0;
 }
-
+@media (max-width: 412px) {
+  .home__title {
+    font-size: 24px;
+  }
+}
 .home__register {
   width: 70%;
   margin-bottom: 30px;
@@ -68,6 +72,10 @@ main {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  h5 {
+    width: 100%;
+    text-align: center;
+  }
 }
 @keyframes showTitle {
   from {

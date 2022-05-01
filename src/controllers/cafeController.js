@@ -2,6 +2,7 @@ import Cafe from '../models/Cafe';
 import User from '../models/User';
 
 const REGISTER_PAGE = 'cafe/register';
+const NOT_FOUND_PAGE = '404';
 
 export const home = async (req, res) => {
   const cafes = await Cafe.find();
@@ -9,7 +10,7 @@ export const home = async (req, res) => {
   let i = 0;
   const { loggedUser } = req.session;
   if (!loggedUser) {
-    return res.render('home', { cafes });
+    return res.status(200).render('home', { cafes });
   }
   const { watchlist } = loggedUser;
   for (let theme of watchlist) {
@@ -21,18 +22,18 @@ export const home = async (req, res) => {
     interestedCafes[i] = [theme, ...interestedCafe];
     i += 1;
   }
-  res.render('home', { interestedCafes });
+  res.status(200).render('home', { interestedCafes });
 };
 
 export const getRegister = (req, res) => {
-  res.render(REGISTER_PAGE);
+  res.status(200).render(REGISTER_PAGE);
 };
 
 export const postRegister = async (req, res) => {
   // form의 입력값 받아오기
   const { name, description, location, theme, level } = req.body;
   const { file } = req;
-  const backgroundUrl = file ? file.path : '';
+  const imageUrl = file ? file.path : '';
 
   // 카페의 난이도가 1~5 사이인지 확인
   if ((level && level <= 0) || level > 5) {
@@ -50,7 +51,7 @@ export const postRegister = async (req, res) => {
     meta: {
       level,
     },
-    backgroundUrl,
+    imageUrl,
     owner: user._id,
   });
   await User.findByIdAndUpdate(user._id, {
@@ -71,13 +72,15 @@ export const detail = async (req, res) => {
       },
     });
   if (!cafe) {
-    return res.status(404).render('404');
+    return res.status(404).render(NOT_FOUND_PAGE);
   }
 
   // 카페의 댓글 불러오기
   const comments = cafe.comments;
 
-  res.render('cafe/detail', { cafe, comments: comments ? comments : '' });
+  res
+    .status(200)
+    .render('cafe/detail', { cafe, comments: comments ? comments : '' });
 };
 
 export const search = async (req, res) => {
@@ -115,20 +118,20 @@ export const search = async (req, res) => {
       ],
     }).sort({ [sortBy]: -1 });
   }
-  return res.render('cafe/search', { cafes });
+  return res.status(200).render('cafe/search', { cafes });
 };
 
 export const searchMap = async (req, res) => {
-  res.render('cafe/search-map');
+  res.status(200).render('cafe/search-map');
 };
 
 export const getEdit = async (req, res) => {
   const { cafeId } = req.params;
   const cafe = await Cafe.findById(cafeId);
   if (!cafe) {
-    return res.status(404).render('404');
+    return res.status(404).render(NOT_FOUND_PAGE);
   }
-  res.render('cafe/edit', { cafe });
+  res.status(200).render('cafe/edit', { cafe });
 };
 
 export const postEdit = async (req, res) => {
@@ -136,8 +139,8 @@ export const postEdit = async (req, res) => {
   const { cafeId } = req.params;
   const { name, description, location, theme, level, rating } = req.body;
   const { file } = req;
-  let { backgroundUrl } = await Cafe.findById(cafeId);
-  backgroundUrl = file ? file.path : backgroundUrl ? backgroundUrl : '';
+  let { imageUrl } = await Cafe.findById(cafeId);
+  imageUrl = file ? file.path : imageUrl ? imageUrl : '';
 
   // 카페의 난이도가 1~5 사이인지 확인
   if (level < 1 || level > 5) {
@@ -154,7 +157,7 @@ export const postEdit = async (req, res) => {
     meta: {
       level,
     },
-    backgroundUrl,
+    imageUrl,
   });
   res.redirect(`/cafes/${cafeId}`);
 };
@@ -163,7 +166,7 @@ export const deleteCafe = async (req, res) => {
   const { cafeId } = req.params;
   const cafe = await Cafe.findById(cafeId);
   if (!cafe) {
-    return res.status(404).render('404');
+    return res.status(404).render(NOT_FOUND_PAGE);
   }
   await Cafe.findByIdAndDelete(cafeId);
   res.redirect('/');

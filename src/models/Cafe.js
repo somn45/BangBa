@@ -11,7 +11,7 @@ const cafeSchema = new Schema({
     recommendedUser: [{ type: Schema.Types.ObjectId, ref: 'users' }],
     rating: { type: Number },
   },
-  backgroundUrl: { type: String },
+  imageUrl: { type: String },
   owner: { type: Schema.Types.ObjectId, required: true, ref: 'users' },
   comments: [{ type: Schema.Types.ObjectId, required: true, ref: 'comments' }],
 });

@@ -1,6 +1,30 @@
 header
   nav
-    ul.header__list
+    ul.header__list.header__list--moblie
+      li
+        a(href='/').header__title BangBa
+      li
+        a(href='/search')
+          i.fa-solid.fa-magnifying-glass
+      li
+        a(href='/search/map')
+          i.fa-solid.fa-map
+      if(loggedIn)
+        li
+          a(href=`/users/${loggedUser._id}`) 
+            i.fas.fa-user
+        li
+          a(href='/logout')
+            i.fa-solid.fa-arrow-right-from-bracket
+      else
+        li
+          a(href='/join') 
+            i.fa-solid.fa-user-plus
+        li
+          a(href='/login') 
+            i.fa-solid.fa-arrow-right-to-bracket
+    
+    ul.header__list.header__list--pc
       div.header__menu
         li
           a(href='/').header__title BangBa

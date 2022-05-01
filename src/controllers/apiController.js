@@ -5,7 +5,6 @@ export const checkRecommendedUser = async (req, res) => {
   const { cafeId } = req.params;
   const cafe = await Cafe.findById(cafeId);
   const { loggedUser } = req.session;
-
   // 유저가 이미 카페를 추천했을 경우 상태 코드 200 전송
   if (cafe.meta.recommendedUser.indexOf(loggedUser._id) !== -1) {
     return res.sendStatus(200);
@@ -19,7 +18,10 @@ export const increaseRecommendation = async (req, res) => {
 
   // 카페의 추천 수를 하나 올리고 추천한 유저 데이터 저장
   cafe.meta.recommendation += 1;
-  cafe.meta.recommendedUser.push(req.session.loggedUser._id);
+
+  const { loggedUser } = req.session;
+
+  cafe.meta.recommendedUser.push(loggedUser._id);
   await cafe.save();
   res.sendStatus(200);
 };
@@ -28,8 +30,11 @@ export const decreaseRecommendation = async (req, res) => {
   const { cafeId } = req.params;
   const cafe = await Cafe.findById(cafeId);
   cafe.meta.recommendation -= 1;
+
+  const { loggedUser } = req.session;
+
   const filter = cafe.meta.recommendedUser.filter((userId) => {
-    return String(userId) !== String(req.session.loggedUser._id);
+    return String(userId) !== String(loggedUser._id);
   });
   cafe.meta.recommendedUser = filter;
   await cafe.save();
@@ -44,7 +49,7 @@ export const addWatchList = async (req, res) => {
     return res.sendStatus(404);
   }
   const user = await User.findByIdAndUpdate(
-    { _id: req.session.loggedUser._id },
+    { _id: loggedUser._id },
     {
       watchlist: themeList,
     },

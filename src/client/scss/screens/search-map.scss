@@ -6,6 +6,13 @@
     font-weight: 600;
   }
 }
+@media (max-width: 412px) {
+  .map__container {
+    h2 {
+      padding-left: 20px;
+    }
+  }
+}
 
 .map__form {
   margin-top: 10px;
@@ -17,9 +24,24 @@
     font-weight: 600;
   }
 }
+@media (max-width: 412px) {
+  .map__form {
+    padding-left: 20px;
+  }
+}
 
 #map {
+  width: 400px;
+  height: 440px;
   margin: 10px 0;
+}
+@media (max-width: 412px) {
+  #map {
+    width: 330px;
+    height: 330px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  }
 }
 
 .infowindow {

@@ -3,7 +3,7 @@ include mixins/interest-cafe
 include mixins/cafe
 
 block content
-  div.home__container
+  section.home__container
     h2.home__title.home__title--top 내가 좋아하는 
     h2.home__title.home__title--bottom 방탈출 카페를 등록해 보세요
     a(href='/cafes/register').home__register 방탈출 카페 등록하기
@@ -19,12 +19,12 @@ block content
         each cafes in interestedCafes
           +cafes(cafes)
         else
-          li 원하시는 테마의 방탈출 카페가 존재하지 않습니다.
+          h5 원하시는 테마의 방탈출 카페가 존재하지 않습니다.
       else
         each cafe in cafes
           +cafe(cafe)
         else
-          li 방탈출 카페가 존재하지 않습니다.
+          h5 방탈출 카페가 존재하지 않습니다.
 
 block script
   script(src='/dist/js/addTheme.js')
