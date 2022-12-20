@@ -7,9 +7,7 @@ export const createComment = async (req, res) => {
   const { text, score } = req.body;
   const { loggedIn, loggedUser } = req.session;
   if (!loggedIn) {
-    return res
-      .status(400)
-      .json({ errorMsg: '게스트 유저는 댓글을 작성할 수 없습니다.' });
+    return res.sendStatus(400);
   }
   let comment = await Comment.create({
     text,

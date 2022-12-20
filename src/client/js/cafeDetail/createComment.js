@@ -2,6 +2,7 @@ import 'regenerator-runtime';
 
 const detailContainer = document.querySelector('.detail__container');
 const form = document.getElementById('commentForm');
+const addCommentErrorMsg = form.querySelector('span');
 const textarea = form.querySelector('textarea');
 const button = form.querySelector('button');
 const detailComments = document.querySelector('.detail__comments');
@@ -95,20 +96,23 @@ async function handleSubmit(event) {
 
   // 댓글 텍스트 fetch하기
   const { cafeid } = detailContainer.dataset;
-  const response = await fetch(`/comments/cafes/${cafeid}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ text, score }),
-  });
+  try {
+    const response = await fetch(`/comments/cafes/${cafeid}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ text, score }),
+    });
 
-  console.log(score);
-  // fetch가 성공적으로 이루어졌을 경우 댓글 즉각적으로 추가
-  if (response.status === 201) {
+    console.log(score);
+    // fetch가 성공적으로 이루어졌을 경우 댓글 즉각적으로 추가
     const { comment } = await response.json();
     textarea.value = '';
     addComment(comment, score);
+  } catch (error) {
+    console.error(error);
+    addCommentErrorMsg.innerText = '게스트 유저는 댓글 작성이 불가능합니다.';
   }
 }
 
