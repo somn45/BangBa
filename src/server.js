@@ -17,7 +17,7 @@ const COOKIE_EXPIRY_TIME = 1000 * 60 * 60 * 24 * 7;
 const app = express();
 
 app.set('view engine', 'pug');
-app.set('views', path.resolve(__dirname, 'views'));
+app.set('views', path.resolve(process.cwd(), 'src', 'views'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());

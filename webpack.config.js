@@ -11,8 +11,7 @@ module.exports = {
     profile: './src/client/js/profile.js',
     map: './src/client/js/map.js',
   },
-  watch: true,
-  mode: 'development',
+  watch: false,
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'css/styles.css',
