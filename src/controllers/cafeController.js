@@ -1,5 +1,6 @@
 import Cafe from '../models/Cafe';
 import User from '../models/User';
+import validateCafeData from '../utils/validateCafeData';
 
 const REGISTER_PAGE = 'cafe/register';
 const NOT_FOUND_PAGE = '404';
@@ -7,7 +8,6 @@ const NOT_FOUND_PAGE = '404';
 export const home = async (req, res) => {
   const cafes = await Cafe.find();
   let interestedCafes = [];
-  let i = 0;
   const { loggedUser } = req.session;
   if (!loggedUser) {
     return res.status(200).render('home', { cafes });
@@ -35,12 +35,9 @@ export const postRegister = async (req, res) => {
   const { file } = req;
   const imageUrl = file ? file.path : '';
 
-  // 카페의 난이도가 1~5 사이인지 확인
-  if ((level && level <= 0) || level > 5) {
-    return res.status(400).render(REGISTER_PAGE, {
-      levelErrorMsg: '카페의 난이도는 1에서 5 사이입니다.',
-    });
-  }
+  const validateMessage = validateCafeData({ location, theme, level });
+  if (validateMessage !== 'ok')
+    return res.status(400).render(REGISTER_PAGE, validateMessage);
 
   const user = req.session.loggedUser;
   const cafe = await Cafe.create({
@@ -77,7 +74,7 @@ export const detail = async (req, res) => {
 
   // 카페의 댓글 불러오기
   const comments = cafe.comments;
-
+  console.log(comments);
   res
     .status(200)
     .render('cafe/detail', { cafe, comments: comments ? comments : '' });
@@ -137,17 +134,14 @@ export const getEdit = async (req, res) => {
 export const postEdit = async (req, res) => {
   // form의 입력값 받아오기
   const { cafeId } = req.params;
-  const { name, description, location, theme, level, rating } = req.body;
+  const { name, description, location, theme, level } = req.body;
   const { file } = req;
   let { imageUrl } = await Cafe.findById(cafeId);
   imageUrl = file ? file.path : imageUrl ? imageUrl : '';
 
-  // 카페의 난이도가 1~5 사이인지 확인
-  if (level < 1 || level > 5) {
-    return res.status(400).render('cafe/edit', {
-      levelErrorMsg: '카페의 난이도는 1에서 5 사이입니다.',
-    });
-  }
+  const validateMessage = validateCafeData({ location, theme, level });
+  if (validateMessage !== 'ok')
+    return res.status(400).render(REGISTER_PAGE, validateMessage);
 
   await Cafe.findByIdAndUpdate(cafeId, {
     name,
@@ -165,9 +159,18 @@ export const postEdit = async (req, res) => {
 export const deleteCafe = async (req, res) => {
   const { cafeId } = req.params;
   const cafe = await Cafe.findById(cafeId);
+  const comments = await Cafe.findById(cafeId).populate('comments');
+  console.log(comments);
   if (!cafe) {
     return res.status(404).render(NOT_FOUND_PAGE);
   }
+  await Cafe.findByIdAndUpdate(
+    cafeId,
+    {
+      comments: [],
+    },
+    { new: true }
+  );
   await Cafe.findByIdAndDelete(cafeId);
   res.redirect('/');
 };
