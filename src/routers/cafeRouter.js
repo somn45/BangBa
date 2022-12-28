@@ -1,4 +1,5 @@
 import express from 'express';
+import awsUpload from '../aws/multerS3';
 
 import {
   getRegister,
@@ -19,12 +20,12 @@ const cafeRouter = express.Router();
 cafeRouter
   .route('/register')
   .get(protectMiddleware, getRegister)
-  .post(uploadCafeBg.single('background'), postRegister);
+  .post(awsUpload.single('background'), postRegister);
 cafeRouter.get('/:cafeId([a-z0-9]{24})', detail);
 cafeRouter
   .route('/:cafeId([a-z0-9]{24})/edit')
   .get(protectMiddleware, ownerProtectMiddleware, getEdit)
-  .post(uploadCafeBg.single('background'), postEdit);
+  .post(awsUpload.single('background'), postEdit);
 cafeRouter.get(
   '/:cafeId([a-z0-9]{24})/delete',
   protectMiddleware,

@@ -31,10 +31,10 @@ export const getRegister = (req, res) => {
 
 export const postRegister = async (req, res) => {
   // form의 입력값 받아오기
+  console.log('image upload');
   const { name, description, location, theme, level } = req.body;
   const { file } = req;
-  const imageUrl = file ? file.path : '';
-
+  const imageUrl = file ? file.location : '';
   const validateMessage = validateCafeData({ location, theme, level });
   if (validateMessage !== 'ok')
     return res.status(400).render(REGISTER_PAGE, validateMessage);

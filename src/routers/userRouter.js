@@ -1,4 +1,5 @@
 import express from 'express';
+import awsUpload from '../aws/multerS3';
 
 import {
   profile,
@@ -16,7 +17,6 @@ import {
   startNaverLogin,
   finishNaverLogin,
 } from '../controllers/socialLoginController';
-import { uploadProfile } from '../middlewares/multer';
 import {
   protectMiddleware,
   preventBreakInMiddleware,
@@ -28,7 +28,7 @@ userRouter.get('/:userId([a-z0-9]{24})', profile);
 userRouter
   .route('/:userId([a-z0-9]{24})/edit')
   .get(protectMiddleware, preventBreakInMiddleware, getEdit)
-  .post(uploadProfile.single('avatar'), postEdit);
+  .post(awsUpload.single('avatar'), postEdit);
 userRouter
   .route('/:userId([a-z0-9]{24})/change-password')
   .get(protectMiddleware, preventBreakInMiddleware, getChangePassword)

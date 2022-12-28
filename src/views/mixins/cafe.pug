@@ -1,7 +1,7 @@
 mixin cafe(cafe)
   div.cafe__item
     a(href=`/cafes/${cafe._id}`)
-      img(src=`/${cafe.imageUrl}` alt=cafe.name)
+      img(src=`${cafe.imageUrl}` alt=cafe.name)
     h5 #{cafe.name}
     div.cafe__meta
       p 🔒 #{cafe.meta.level}.0

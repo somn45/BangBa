@@ -1,4 +1,5 @@
 import express from 'express';
+import awsUpload from '../aws/multerS3';
 
 import { uploadProfile } from '../middlewares/multer';
 import { home, search, searchMap } from '../controllers/cafeController';
@@ -20,7 +21,7 @@ globalRouter.get('/', home);
 globalRouter
   .route('/join')
   .get(getJoin)
-  .post(uploadProfile.single('avatar'), guestPublicMiddleware, postJoin);
+  .post(awsUpload.single('avatar'), guestPublicMiddleware, postJoin);
 globalRouter
   .route('/login')
   .get(guestPublicMiddleware, getLogin)

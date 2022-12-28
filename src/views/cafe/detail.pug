@@ -4,7 +4,10 @@ include ../mixins/comment
 
 block content
   section.detail__container(data-cafeId=cafe._id)
-    img(src=`/${cafe.imageUrl}` alt=cafe.name width=400 height=400)
+    if(cafe.imageUrl)
+      img(src=`${cafe.imageUrl}` alt=cafe.name width=400 height=400)
+    else
+      img(src="/assets/img/cafe_default.jpg" alt="디폴트 이미지")
     h2=cafe.name
     div.detail__registrant
       p 등록한 분 : 
