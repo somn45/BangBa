@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
+import DB_URL from './db';
 import globalRouter from './routers/globalRouter';
 import userRouter from './routers/userRouter';
 import cafeRouter from './routers/cafeRouter';
@@ -26,7 +27,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     resave: true,
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+    store: MongoStore.create({ mongoUrl: DB_URL }),
     cookie: {
       maxAge: COOKIE_EXPIRY_TIME,
     },

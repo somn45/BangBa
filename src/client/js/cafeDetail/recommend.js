@@ -9,7 +9,6 @@ async function checkRecommendation() {
   const response = await fetch(`/api/${cafeid}/recommend`, {
     method: 'GET',
   });
-  console.log(response);
   if (response.status === 200) {
     recommendBtn.classList.add('recommended');
   }

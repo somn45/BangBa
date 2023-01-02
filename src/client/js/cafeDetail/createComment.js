@@ -105,7 +105,6 @@ async function handleSubmit(event) {
       body: JSON.stringify({ text, score }),
     });
 
-    console.log(score);
     // fetch가 성공적으로 이루어졌을 경우 댓글 즉각적으로 추가
     const { comment } = await response.json();
     textarea.value = '';

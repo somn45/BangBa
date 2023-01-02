@@ -113,7 +113,6 @@ export const profile = async (req, res) => {
         path: 'cafe',
       },
     });
-  console.log(user);
   if (!user) {
     return res.status(404).render(NOT_FOUND_PAGE);
   }

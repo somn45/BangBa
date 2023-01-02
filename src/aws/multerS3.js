@@ -15,12 +15,9 @@ const awsUpload = multer({
     bucket: 'bangba-storage',
     ACL: 'public-read',
     key: function (req, file, cb) {
-      console.log(file);
       cb(null, `${Date.now()}_${path.basename(file.originalname)}`);
     },
   }),
 });
-
-console.log('s3');
 
 export default awsUpload;

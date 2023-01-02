@@ -37,7 +37,6 @@ export const finishKakaoLogin = async (req, res) => {
       'https://kapi.kakao.com/v2/user/me',
       access_token
     );
-    console.log(userRequest);
     if ('msg' in userRequest) {
       return res.redirect('/login');
     }
@@ -99,7 +98,6 @@ export const finishGoogleLogin = async (req, res) => {
     redirect_uri: 'http://localhost:4000/users/google/oauth',
   };
   const finalUrl = combineUrlAndParams(baseUrl, urlConfig);
-  console.log(finalUrl);
   const tokenRequest = await (
     await fetch(finalUrl, {
       method: 'POST',
@@ -119,7 +117,6 @@ export const finishGoogleLogin = async (req, res) => {
     ).json();
     const { id, name, email, verified_email, picture } = userRequest;
     let user = await User.findOne({ uid: id });
-    console.log(user);
     if (!user) {
       user = await User.create({
         uid: id,

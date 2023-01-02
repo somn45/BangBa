@@ -44,7 +44,6 @@ export const decreaseRecommendation = async (req, res) => {
 export const addWatchList = async (req, res) => {
   const { themeList } = req.body;
   const { loggedUser } = req.session;
-  console.log(themeList);
   if (!loggedUser) {
     return res.sendStatus(404);
   }
@@ -72,8 +71,6 @@ export const findLocation = async (req, res) => {
 
 export const getCafeInfo = async (req, res) => {
   const { cafeId } = req.params;
-  console.log(cafeId);
   const cafe = await Cafe.findById(cafeId);
-  console.log(cafe);
   return res.json({ cafe });
 };

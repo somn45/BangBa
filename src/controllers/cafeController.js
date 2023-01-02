@@ -31,7 +31,6 @@ export const getRegister = (req, res) => {
 
 export const postRegister = async (req, res) => {
   // form의 입력값 받아오기
-  console.log('image upload');
   const { name, description, location, theme, level } = req.body;
   const { file } = req;
   const imageUrl = file ? file.location : '';
@@ -74,7 +73,6 @@ export const detail = async (req, res) => {
 
   // 카페의 댓글 불러오기
   const comments = cafe.comments;
-  console.log(comments);
   res
     .status(200)
     .render('cafe/detail', { cafe, comments: comments ? comments : '' });
@@ -160,7 +158,6 @@ export const deleteCafe = async (req, res) => {
   const { cafeId } = req.params;
   const cafe = await Cafe.findById(cafeId);
   const comments = await Cafe.findById(cafeId).populate('comments');
-  console.log(comments);
   if (!cafe) {
     return res.status(404).render(NOT_FOUND_PAGE);
   }
