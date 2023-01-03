@@ -14,13 +14,14 @@ export const home = async (req, res) => {
   }
   const { watchlist } = loggedUser;
   for (let theme of watchlist) {
+    let interestedCafeCount = 0;
     const interestedCafe = await Cafe.find({
       theme,
     })
       .sort({ 'meta.rating': -1 })
       .limit(6);
-    interestedCafes[i] = [theme, ...interestedCafe];
-    i += 1;
+    interestedCafes[interestedCafeCount] = [theme, ...interestedCafe];
+    interestedCafeCount += 1;
   }
   res.status(200).render('home', { interestedCafes });
 };
