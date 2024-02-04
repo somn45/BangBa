@@ -23,7 +23,7 @@ export const postJoin = async (req, res) => {
     location,
     watchlist,
   } = req.body;
-  const avatarUrl = req.file ? req.file.path : '';
+  const avatarUrl = req.file ? req.file.location : '';
 
   // 중복된 유저 ID인지 확인
   const uidExists = await User.exists({ uid });

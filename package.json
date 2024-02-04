@@ -55,6 +55,7 @@
     "multer-s3": "^2.10.0",
     "node-fetch": "^2.6.0",
     "path": "^0.12.7",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "regenerator-runtime": "^0.13.9"
   }
 }

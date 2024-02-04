@@ -8,7 +8,7 @@ block content
         h1 #{user.uid}
         h3 #{user.username}
       if(user.avatarUrl)
-        img(src=`/${user.avatarUrl}` alt=`${user.uid}님의 이미지`)
+        img(src=`${user.avatarUrl}` alt=`${user.uid}님의 이미지`)
       else
         img(src="/assets/img/default.jpg" alt="디폴트 이미지")
     ul.profile__info
