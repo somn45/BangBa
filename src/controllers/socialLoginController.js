@@ -8,7 +8,8 @@ export const startKakaoLogin = (req, res) => {
   const baseUrl = 'https://kauth.kakao.com/oauth/authorize';
   const urlConfig = {
     client_id: process.env.KAKAO_CLIENT_ID,
-    redirect_uri: 'https://bangba.site/users/kakao/oauth',
+    redirect_uri:
+      'https://bangba1-7cba0101cfe9.herokuapp.com/users/kakao/oauth',
     response_type: 'code',
     state: process.env.KAKAO_STATE,
   };
@@ -22,7 +23,8 @@ export const finishKakaoLogin = async (req, res) => {
   const urlConfig = {
     grant_type: 'authorization_code',
     client_id: process.env.KAKAO_CLIENT_ID,
-    redirect_uri: 'https://bangba.site/users/kakao/oauth',
+    redirect_uri:
+      'https://bangba1-7cba0101cfe9.herokuapp.com/users/kakao/oauth',
     code,
   };
   const finalUrl = combineUrlAndParams(baseUrl, urlConfig);
@@ -76,7 +78,8 @@ export const startGoogleLogin = (req, res) => {
   const baseUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
   const urlConfig = {
     client_id: process.env.GOOGLE_CLIENT_ID,
-    redirect_uri: 'https://bangba.site/users/google/oauth',
+    redirect_uri:
+      'https://bangba1-7cba0101cfe9.herokuapp.com/users/google/oauth',
     response_type: 'code',
     scope:
       'https://www.googleapis.com/auth/userinfo.email openid https://www.googleapis.com/auth/userinfo.profile',
@@ -95,7 +98,8 @@ export const finishGoogleLogin = async (req, res) => {
     client_secret: process.env.GOOGLE_CLIENT_SECRET,
     code,
     grant_type: 'authorization_code',
-    redirect_uri: 'https://bangba.site/users/google/oauth',
+    redirect_uri:
+      'https://bangba1-7cba0101cfe9.herokuapp.com/users/google/oauth',
   };
   const finalUrl = combineUrlAndParams(baseUrl, urlConfig);
   const tokenRequest = await (
@@ -141,7 +145,8 @@ export const startNaverLogin = (req, res) => {
   const urlConfig = {
     response_type: 'code',
     client_id: process.env.NAVER_CLIENT_ID,
-    redirect_uri: 'https://bangba.site/users/naver/oauth',
+    redirect_uri:
+      'https://bangba1-7cba0101cfe9.herokuapp.com/users/naver/oauth',
     state: process.env.NAVER_STATE,
   };
   const finalUrl = combineUrlAndParams(baseUrl, urlConfig);
